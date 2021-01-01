@@ -1,0 +1,20 @@
+{
+  "name": "proletaria",
+  "version": "0.0.1",
+  "description": "A fun new economy bot that's based",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "cibuild": "tsc -w",
+    "test": "npm run build && npm run start",
+    "start": "node dist/index.js"
+  },
+  "author": "blitzwolfz",
+  "license": "ISC",
+  "dependencies": {
+    "@types/mongodb": "^3.5.23",
+    "discord.js": "^12.3.0",
+    "dotenv": "^8.2.0",
+    "mongodb": "^3.6.3"
+  }
+}
