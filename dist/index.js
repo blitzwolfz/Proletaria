@@ -31,6 +31,19 @@ exports.prefix = "??";
 const c = __importStar(require("./commands/index"));
 const loops_1 = require("./commands/util/loops");
 const commands = c.default;
+const express = require('express');
+const app = express();
+app.use(express.static('public'));
+const http = require('http');
+var _server = http.createServer(app);
+app.get('/', (_request, response) => {
+    response.sendFile(__dirname + "/index.html");
+    console.log(Date.now() + " Ping Received");
+    response.sendStatus(200);
+});
+const listener = app.listen(process.env.PORT, () => {
+    console.log('Your app is listening on port ' + listener.address().port);
+});
 exports.client.once("ready", async () => {
     var _a;
     await db_1.connectToDB();

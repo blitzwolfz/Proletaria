@@ -19,6 +19,25 @@ import { megaloop } from "./commands/util/loops"
 //console.log(c.default)
 const commands: Command[] = c.default
 
+//Express for hosting
+const express = require('express');
+const app = express();
+app.use(express.static('public'));
+const http = require('http');
+//@ts-ignore
+var _server = http.createServer(app);
+
+app.get('/', (_request: any, response: any) => {
+  response.sendFile(__dirname + "/index.html");
+  console.log(Date.now() + " Ping Received");
+  response.sendStatus(200);
+});
+
+const listener = app.listen(process.env.PORT, () => {
+  console.log('Your app is listening on port ' + listener.address().port);
+});
+//Express for hosting
+
 client.once("ready", async () => {
   // Load all JavaScript / TypeScript files so it works properly after compiling
   // await commandloader(commands, `${__dirname}/commands/*.js`)
@@ -85,8 +104,5 @@ export async function commandloader(commands:Command[], local:string){
     commands.push(command)
   }
 }
-
-
-
 
 client.login(process.env.TOKEN!)
