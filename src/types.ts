@@ -3,8 +3,10 @@ import { Client, Message } from "discord.js"
 export interface Command {
     name: string
     description: string
+    group:string;
+    owner:boolean;
     // Making `args` optional
-    execute(message: Message, client:Client, args?: string[]): Promise<any>;
+    execute(message: Message, client:Client, args?: string[], ownerID?:string): Promise<any>;
 }
 
 export interface user {

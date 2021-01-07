@@ -6,6 +6,8 @@ import { getUser } from "../../util/db";
 export const userstats: Command = {
     name: "stats",
     description: "View your stats",
+    group:"stats",
+    owner:false,
     async execute(message: Message, client:Client, args: string[]){
         let u = await getUser(message.author.id)
 

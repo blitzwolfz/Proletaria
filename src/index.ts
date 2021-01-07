@@ -2,7 +2,7 @@ const glob = require("glob") // included by discord.js allow this import
 import { promisify } from "util" // Included by default
 import { Command } from "./types"
 import * as Discord from "discord.js"
-import { connectToDB, deleteServer, getServer, insertServer } from "./util/db"
+import { connectToDB, deleteServer, getServer, getServers, insertServer, updateServer } from "./util/db"
 require('dotenv').config()
 
 
@@ -13,10 +13,11 @@ const globPromise = promisify(glob)
 export const client = new Discord.Client
 
 
-export let prefix = "??"
+export let prefix:string = process.env.prefix!
 import * as c from "./commands/index"
 import { megaloop } from "./commands/util/loops"
 //console.log(c.default)
+//@ts-ignore
 const commands: Command[] = c.default
 
 //Express for hosting
@@ -44,15 +45,32 @@ client.once("ready", async () => {
   // await commandloader(commands, `${__dirname}/commands/economy/*.js`)
   // await commandloader(commands, `${__dirname}/commands/util/*.js`)
   await connectToDB()
-  console.log(`Logged in as ${client.user?.tag}\nPrefix is ${prefix}`)
-  console.log(`In ${client.guilds.cache.size} servers\nTotal users is ${client.users.cache.size}`)
+
   
   setInterval(async function () {
     // console.log("A Kiss every 5 seconds");
-    console.time("Big loop goes brrr in")
+    //console.time("Big loop goes brrr in")
     await megaloop(client)
-    console.timeEnd("Big loop goes brrr in")
+    //console.timeEnd("Big loop goes brrr in")
   }, 1000);
+
+  try {
+    getServers().then(server => {
+      if (server.length < client.guilds.cache.array().length)
+          client.guilds.cache.array().forEach(async (el) => {
+              updateServer({
+                  _id: el.id,
+                  name: el.name,
+                  prefix: (await getServer(el.id))?.prefix || "??"
+              }, true);
+          });
+    });
+  } catch (e) {
+    console.log("Could not update all servers")
+  }
+
+  console.log(`Logged in as ${client.user?.tag}\nPrefix is ${prefix}`)
+  console.log(`In ${client.guilds.cache.size} servers\nTotal users is ${client.users.cache.size}`)
 
 })
 
@@ -79,9 +97,20 @@ client.on("message", async message => {
     return
   }
   prefix = (await getServer(message.guild?.id!))?.prefix;
-  if(!message.content.includes(prefix)) return;
 
-  var args: Array<string> = message.content.slice(prefix.length).trim().split(/ +/g);
+  var args: Array<string>;
+
+  //"Dynamic" Prefix handling
+  if(message.content.startsWith(prefix) || message.content.startsWith(process.env.prefix!)){
+    if(message.content.startsWith(process.env.prefix!)){
+      args = message.content.slice((process.env.prefix!.length)).trim().split(/ +/g);
+    }
+    else{
+      args = message.content.slice((prefix.length)).trim().split(/ +/g); 
+    }
+  } else return;
+
+   
   const commandName: string | undefined = args?.shift()?.toLowerCase();
 
   if(!commandName) return
@@ -92,10 +121,13 @@ client.on("message", async message => {
   const command = commands.find(c => c.name.toLowerCase() === commandName)
 
   if (command) {
-    await command.execute(message, client, args)
+    
+    if(command.owner) await command.execute(message, client, args, process.env.owner)
+
+    else await command.execute(message, client, args)
   }
 })
-
+ 
 export async function commandloader(commands:Command[], local:string){
   const commandFiles = await globPromise(local)
   console.log(local)
@@ -105,4 +137,4 @@ export async function commandloader(commands:Command[], local:string){
   }
 }
 
-client.login(process.env.TOKEN!)
+client.login(process.env.token2!)

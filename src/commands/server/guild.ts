@@ -7,7 +7,9 @@ require('dotenv').config()
 export const prefix: Command = {
     name: "prefix",
     description: "View server prefix or add an arg to change it",
-    async execute(message: Message, client:Client, args: string[]){
+    group:"server",
+    owner:true,
+    async execute(message: Message, client:Client, args: string[], ownerID:string){
         let s = await getServer(message.guild!.id!)
         console.log(args)
         if(args.length === 0){
@@ -17,7 +19,7 @@ export const prefix: Command = {
         if(!(
             message.member?.hasPermission(["ADMINISTRATOR", "MANAGE_GUILD"])
         ) && !(
-            message.author.id === process.env.owner
+            ownerID === process.env.owner
         ))  return message.reply("you need manage server permissions to change the prefix!");
 
         

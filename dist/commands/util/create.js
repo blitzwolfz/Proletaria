@@ -6,7 +6,11 @@ const db_1 = require("../../util/db");
 exports.createuser = {
     name: "create",
     description: "Create your user profile",
+    group: "utility",
+    owner: false,
     async execute(message, client, args) {
+        if (await db_1.getUser(message.author.id))
+            return message.reply("You already have an account");
         if (args.length < 4)
             return message
                 .reply(`Error please follow command: ${await (await db_1.getServer(message.guild.id)).prefix || __1.prefix}create \`name of currency\`, \`name of people\`, \`name of army\`, \`name of navy\``);
@@ -35,6 +39,8 @@ exports.createuser = {
 exports.rename = {
     name: "rename",
     description: "Rename stuff",
+    group: "utility",
+    owner: false,
     async execute(message, client, args) {
         if (args.length === 0)
             return message.reply("What do you want to rename? user");

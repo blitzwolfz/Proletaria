@@ -5,7 +5,9 @@ const db_1 = require("../../util/db");
 const util_1 = require("../../util/util");
 exports.work = {
     name: "work",
-    description: "You can work every 15 mins",
+    description: "You can work every 15 mins to earn money",
+    group: "economy",
+    owner: false,
     async execute(message, client, args) {
         let u = await db_1.getUser(message.author.id);
         if (!u) {
@@ -31,7 +33,9 @@ exports.work = {
 };
 exports.beg = {
     name: "beg",
-    description: "You can beg for food every hour",
+    group: "economy",
+    description: "You can beg for food every hour to earn food",
+    owner: false,
     async execute(message, client, args) {
         let u = await db_1.getUser(message.author.id);
         if (!u) {

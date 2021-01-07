@@ -11,5 +11,6 @@ export declare function updateReminder(r: reminder): Promise<void>;
 export declare function deleteReminder(r: reminder): Promise<void>;
 export declare function insertServer(s: server): Promise<void>;
 export declare function getServer(_id: string): Promise<server>;
+export declare function getServers(): Promise<server[]>;
 export declare function updateServer(server: server, upsert: boolean): Promise<void>;
 export declare function deleteServer(_id: string): Promise<void>;

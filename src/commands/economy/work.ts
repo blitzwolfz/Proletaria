@@ -7,7 +7,9 @@ import { toHHMMSS } from "../../util/util";
 // This will complain if you don't provide the right types for each property
 export const work: Command = {
     name: "work",
-    description: "You can work every 15 mins",
+    description: "You can work every 15 mins to earn money",
+    group:"economy",
+    owner:false,
     async execute(message: Message, client:Client, args: string[]){
         let u = await getUser(message.author.id)
 
@@ -41,7 +43,9 @@ export const work: Command = {
 
 export const beg: Command = {
     name:"beg",
-    description:"You can beg for food every hour",
+    group:"economy",
+    description:"You can beg for food every hour to earn food",
+    owner:false,
     async execute(message: Message, client:Client, args: string[]){
         let u = await getUser(message.author.id)
 

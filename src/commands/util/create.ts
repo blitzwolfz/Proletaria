@@ -7,7 +7,11 @@ import { getServer, getUser, inserUser, updateUser } from "../../util/db"
 export const createuser: Command = {
     name: "create",
     description: "Create your user profile",
+    group:"utility",
+    owner:false,
     async execute(message: Message, client:Client, args: string[]){
+
+        if(await getUser(message.author.id)) return message.reply("You already have an account")
 
         if(args.length < 4) return message
         .reply(`Error please follow command: ${await (await getServer(message.guild!.id)).prefix || prefix}create \`name of currency\`, \`name of people\`, \`name of army\`, \`name of navy\``)
@@ -41,6 +45,8 @@ export const createuser: Command = {
 export const rename: Command = {
     name: "rename",
     description: "Rename stuff",
+    group:"utility",
+    owner:false,
     async execute(message: Message, client:Client, args: string[]){
 
         if(args.length === 0) return message.reply("What do you want to rename? user")

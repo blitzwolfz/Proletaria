@@ -19,7 +19,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteServer = exports.updateServer = exports.getServer = exports.insertServer = exports.deleteReminder = exports.updateReminder = exports.getReminders = exports.getReminder = exports.inserReminder = exports.updateUser = exports.getUsers = exports.getUser = exports.inserUser = exports.connectToDB = void 0;
+exports.deleteServer = exports.updateServer = exports.getServers = exports.getServer = exports.insertServer = exports.deleteReminder = exports.updateReminder = exports.getReminders = exports.getReminder = exports.inserReminder = exports.updateUser = exports.getUsers = exports.getUser = exports.inserUser = exports.connectToDB = void 0;
 const mongodb = __importStar(require("mongodb"));
 require("dotenv").config();
 const url = process.env.MONGOURL;
@@ -90,8 +90,12 @@ async function getServer(_id) {
     return client.db(dbn).collection("servers").findOne({ _id });
 }
 exports.getServer = getServer;
+async function getServers() {
+    return await client.db(dbn).collection("servers").find().toArray();
+}
+exports.getServers = getServers;
 async function updateServer(server, upsert) {
-    client.db(dbn).collection("servers").updateOne({ _id: server._id }, { $set: server }, { upsert });
+    client.db(dbn).collection("servers").updateOne({ _id: server._id }, { $set: server }, { upsert: true });
 }
 exports.updateServer = updateServer;
 async function deleteServer(_id) {

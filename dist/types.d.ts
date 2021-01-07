@@ -2,7 +2,9 @@ import { Client, Message } from "discord.js";
 export interface Command {
     name: string;
     description: string;
-    execute(message: Message, client: Client, args?: string[]): Promise<any>;
+    group: string;
+    owner: boolean;
+    execute(message: Message, client: Client, args?: string[], ownerID?: string): Promise<any>;
 }
 export interface user {
     _id: string;

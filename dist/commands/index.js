@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const store_1 = require("./economy/store");
 const work_1 = require("./economy/work");
 const ping_1 = require("./ping");
 const guild_1 = require("./server/guild");
@@ -13,5 +14,7 @@ exports.default = [
     guild_1.prefix,
     work_1.work,
     work_1.beg,
-    create_1.rename
+    create_1.rename,
+    store_1.store,
+    store_1.buy
 ];

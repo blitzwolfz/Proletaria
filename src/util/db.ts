@@ -22,7 +22,6 @@ export async function connectToDB(): Promise<void> {
     });
 }
 
-
 //User db commands
 export async function inserUser(user:user) {
     await client.db(dbn).collection("users").insertOne(user) 
@@ -73,8 +72,12 @@ export async function getServer(_id: string): Promise<server> {
     return client.db(dbn).collection("servers").findOne({ _id })!;
 }
 
+export async function getServers(): Promise<server[]> {
+    return await client.db(dbn).collection("servers").find().toArray()
+}
+
 export async function updateServer(server: server, upsert: boolean) {
-    client.db(dbn).collection("servers").updateOne({ _id: server._id }, { $set: server }, { upsert });
+    client.db(dbn).collection("servers").updateOne({ _id: server._id }, { $set: server }, { upsert:true });
 }
 
 export async function deleteServer(_id: string) {

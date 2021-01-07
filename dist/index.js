@@ -27,7 +27,7 @@ const db_1 = require("./util/db");
 require('dotenv').config();
 const globPromise = util_1.promisify(glob);
 exports.client = new Discord.Client;
-exports.prefix = "??";
+exports.prefix = process.env.prefix;
 const c = __importStar(require("./commands/index"));
 const loops_1 = require("./commands/util/loops");
 const commands = c.default;
@@ -47,13 +47,27 @@ const listener = app.listen(process.env.PORT, () => {
 exports.client.once("ready", async () => {
     var _a;
     await db_1.connectToDB();
+    setInterval(async function () {
+        await loops_1.megaloop(exports.client);
+    }, 1000);
+    try {
+        db_1.getServers().then(server => {
+            if (server.length < exports.client.guilds.cache.array().length)
+                exports.client.guilds.cache.array().forEach(async (el) => {
+                    var _a;
+                    db_1.updateServer({
+                        _id: el.id,
+                        name: el.name,
+                        prefix: ((_a = (await db_1.getServer(el.id))) === null || _a === void 0 ? void 0 : _a.prefix) || "??"
+                    }, true);
+                });
+        });
+    }
+    catch (e) {
+        console.log("Could not update all servers");
+    }
     console.log(`Logged in as ${(_a = exports.client.user) === null || _a === void 0 ? void 0 : _a.tag}\nPrefix is ${exports.prefix}`);
     console.log(`In ${exports.client.guilds.cache.size} servers\nTotal users is ${exports.client.users.cache.size}`);
-    setInterval(async function () {
-        console.time("Big loop goes brrr in");
-        await loops_1.megaloop(exports.client);
-        console.timeEnd("Big loop goes brrr in");
-    }, 1000);
 });
 exports.client.on("guildCreate", async (guild) => {
     console.log(`New guild joined: ${guild.name} (id: ${guild.id}). This guild has ${guild.memberCount} members!`);
@@ -76,9 +90,17 @@ exports.client.on("message", async (message) => {
         return;
     }
     exports.prefix = (_b = (await db_1.getServer((_a = message.guild) === null || _a === void 0 ? void 0 : _a.id))) === null || _b === void 0 ? void 0 : _b.prefix;
-    if (!message.content.includes(exports.prefix))
+    var args;
+    if (message.content.startsWith(exports.prefix) || message.content.startsWith(process.env.prefix)) {
+        if (message.content.startsWith(process.env.prefix)) {
+            args = message.content.slice((process.env.prefix.length)).trim().split(/ +/g);
+        }
+        else {
+            args = message.content.slice((exports.prefix.length)).trim().split(/ +/g);
+        }
+    }
+    else
         return;
-    var args = message.content.slice(exports.prefix.length).trim().split(/ +/g);
     const commandName = (_c = args === null || args === void 0 ? void 0 : args.shift()) === null || _c === void 0 ? void 0 : _c.toLowerCase();
     if (!commandName)
         return;
@@ -86,7 +108,10 @@ exports.client.on("message", async (message) => {
     }
     const command = commands.find(c => c.name.toLowerCase() === commandName);
     if (command) {
-        await command.execute(message, exports.client, args);
+        if (command.owner)
+            await command.execute(message, exports.client, args, process.env.owner);
+        else
+            await command.execute(message, exports.client, args);
     }
 });
 async function commandloader(commands, local) {
@@ -98,4 +123,4 @@ async function commandloader(commands, local) {
     }
 }
 exports.commandloader = commandloader;
-exports.client.login(process.env.TOKEN);
+exports.client.login(process.env.token2);

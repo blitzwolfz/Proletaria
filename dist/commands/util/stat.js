@@ -6,6 +6,8 @@ const db_1 = require("../../util/db");
 exports.userstats = {
     name: "stats",
     description: "View your stats",
+    group: "stats",
+    owner: false,
     async execute(message, client, args) {
         let u = await db_1.getUser(message.author.id);
         if (!u) {

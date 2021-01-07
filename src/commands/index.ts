@@ -1,4 +1,5 @@
 
+import { buy, store } from "./economy/store"
 import { beg, work } from "./economy/work"
 import  { nerdping, ping } from "./ping"
 import { prefix } from "./server/guild"
@@ -13,5 +14,7 @@ export default [
     prefix,
     work,
     beg,
-    rename
+    rename, 
+    store,
+    buy
 ]
