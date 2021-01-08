@@ -19,7 +19,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.commandloader = exports.prefix = exports.client = void 0;
+exports.updatecommands = exports.removecommands = exports.reloadcommands = exports.prefix = exports.client = void 0;
 const glob = require("glob");
 const util_1 = require("util");
 const Discord = __importStar(require("discord.js"));
@@ -30,7 +30,7 @@ exports.client = new Discord.Client;
 exports.prefix = process.env.prefix;
 const c = __importStar(require("./commands/index"));
 const loops_1 = require("./commands/util/loops");
-const commands = c.default;
+var commands = c.default;
 const express = require('express');
 const app = express();
 app.use(express.static('public'));
@@ -85,15 +85,20 @@ exports.client.on("guildDelete", async (guild) => {
         await db_1.deleteServer(guild.id);
 });
 exports.client.on("message", async (message) => {
-    var _a, _b, _c;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
     if (message.author.bot) {
         return;
     }
     exports.prefix = (_b = (await db_1.getServer((_a = message.guild) === null || _a === void 0 ? void 0 : _a.id))) === null || _b === void 0 ? void 0 : _b.prefix;
     var args;
-    if (message.content.startsWith(exports.prefix) || message.content.startsWith(process.env.prefix)) {
+    if (message.content.startsWith(exports.prefix)
+        || message.content.startsWith(process.env.prefix)
+        || message.content.startsWith(`<@!${(_c = exports.client.user) === null || _c === void 0 ? void 0 : _c.id}>`)) {
         if (message.content.startsWith(process.env.prefix)) {
             args = message.content.slice((process.env.prefix.length)).trim().split(/ +/g);
+        }
+        else if (message.content.startsWith(`<@!${(_d = exports.client.user) === null || _d === void 0 ? void 0 : _d.id}>`)) {
+            args = message.content.slice((`<@!${(_e = exports.client.user) === null || _e === void 0 ? void 0 : _e.id}>`.length)).trim().split(/ +/g);
         }
         else {
             args = message.content.slice((exports.prefix.length)).trim().split(/ +/g);
@@ -101,26 +106,102 @@ exports.client.on("message", async (message) => {
     }
     else
         return;
-    const commandName = (_c = args === null || args === void 0 ? void 0 : args.shift()) === null || _c === void 0 ? void 0 : _c.toLowerCase();
+    const commandName = (_f = args === null || args === void 0 ? void 0 : args.shift()) === null || _f === void 0 ? void 0 : _f.toLowerCase();
     if (!commandName)
         return;
+    console.log(commandName);
     if (commandName === "test") {
+        if (message.author.id !== process.env.owner) {
+            await message.reply("nah b");
+        }
+    }
+    if (commandName === "removecommands") {
+        if (message.author.id !== process.env.owner) {
+            await message.reply("nah b");
+        }
+        await message.reply(await removecommands(commands, args));
+    }
+    if (commandName === "reloadcommands") {
+        if (message.author.id !== process.env.owner) {
+            await message.reply("nah b");
+        }
+        await message.reply(await reloadcommands(commands));
+    }
+    if (commandName === "allcommands") {
+        if (message.author.id !== process.env.owner) {
+            await message.reply("nah b");
+        }
+        await message.channel.send("Commands available are:");
+        for (let cc of commands) {
+            if (!await (await db_1.getConfig()).removecommands.includes(cc.name))
+                await message.channel.send(cc.name);
+        }
     }
     const command = commands.find(c => c.name.toLowerCase() === commandName);
     if (command) {
-        if (command.owner)
-            await command.execute(message, exports.client, args, process.env.owner);
-        else
-            await command.execute(message, exports.client, args);
+        if (command.owner) {
+            try {
+                if (message.author.id !== process.env.owner)
+                    return message.reply("Can't use this command.");
+                await command.execute(message, exports.client, args, process.env.owner);
+            }
+            catch (error) {
+                await message.channel.send(new Discord.MessageEmbed()
+                    .setColor("RED")
+                    .setTitle("ERROR")
+                    .addFields({ name: 'Channel Name', value: `${(await exports.client.channels.fetch(message.channel.id)).name}`, inline: true }, { name: 'Channel Id', value: `${message.channel.id}`, inline: true }, { name: 'Guild Id', value: `${(_g = message.guild) === null || _g === void 0 ? void 0 : _g.id}`, inline: true }, { name: 'Guild Name', value: `${(_h = message.guild) === null || _h === void 0 ? void 0 : _h.name}`, inline: true }, { name: 'User', value: `${message.author.tag}`, inline: true }, { name: 'User Id', value: `${message.author.id}`, inline: true })
+                    .setDescription(`\`\`\`${error.message}\`\`\``));
+            }
+        }
+        else {
+            try {
+                await command.execute(message, exports.client, args);
+            }
+            catch (error) {
+                await message.channel.send(new Discord.MessageEmbed()
+                    .setColor("RED")
+                    .setTitle("ERROR")
+                    .addFields({ name: 'Channel Name', value: `${(await exports.client.channels.fetch(message.channel.id)).name}`, inline: true }, { name: 'Channel Id', value: `${message.channel.id}`, inline: true }, { name: 'Guild Id', value: `${(_j = message.guild) === null || _j === void 0 ? void 0 : _j.id}`, inline: true }, { name: 'Guild Name', value: `${(_k = message.guild) === null || _k === void 0 ? void 0 : _k.name}`, inline: true }, { name: 'User', value: `${message.author.tag}`, inline: true }, { name: 'User Id', value: `${message.author.id}`, inline: true })
+                    .setDescription(`\`\`\`${error.message}\`\`\``));
+            }
+        }
     }
 });
-async function commandloader(commands, local) {
-    const commandFiles = await globPromise(local);
-    console.log(local);
-    for (const file of commandFiles) {
-        const command = await Promise.resolve().then(() => __importStar(require(file)));
-        commands.push(command);
-    }
+async function reloadcommands(localcommands) {
+    localcommands = c.default;
+    let config = await db_1.getConfig();
+    config.removecommands = [];
+    await db_1.updateConfig(config, true);
+    commands = localcommands;
+    return "Reloaded commands";
 }
-exports.commandloader = commandloader;
+exports.reloadcommands = reloadcommands;
+async function removecommands(localcommands, args) {
+    console.log(localcommands.length);
+    args = args.join(" ").split(/[,]+/);
+    console.log(args);
+    let config = await db_1.getConfig();
+    for (let co of localcommands) {
+        console.log(co.name);
+        console.log(args.includes(co.name));
+        if (args.includes(co.name))
+            config.removecommands.push(co.name);
+    }
+    await db_1.updateConfig(config, true);
+    await updatecommands(localcommands);
+    return "Removed commands";
+}
+exports.removecommands = removecommands;
+async function updatecommands(localcommands) {
+    localcommands = [];
+    console.log(localcommands);
+    let config = await db_1.getConfig();
+    for (let cc of c.default) {
+        if (!config.removecommands.includes(cc.name))
+            localcommands.push(cc);
+    }
+    console.log(localcommands);
+    commands = localcommands;
+}
+exports.updatecommands = updatecommands;
 exports.client.login(process.env.token2);

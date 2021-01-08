@@ -19,7 +19,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteServer = exports.updateServer = exports.getServers = exports.getServer = exports.insertServer = exports.deleteReminder = exports.updateReminder = exports.getReminders = exports.getReminder = exports.inserReminder = exports.updateUser = exports.getUsers = exports.getUser = exports.inserUser = exports.connectToDB = void 0;
+exports.deleteConfig = exports.updateConfig = exports.getConfig = exports.insertConfig = exports.deleteServer = exports.updateServer = exports.getServers = exports.getServer = exports.insertServer = exports.deleteReminder = exports.updateReminder = exports.getReminders = exports.getReminder = exports.inserReminder = exports.updateUser = exports.getUsers = exports.getUser = exports.deleteUser = exports.inserUser = exports.connectToDB = void 0;
 const mongodb = __importStar(require("mongodb"));
 require("dotenv").config();
 const url = process.env.MONGOURL;
@@ -34,6 +34,7 @@ async function connectToDB() {
                 await client.db(dbn).createCollection("users");
                 await client.db(dbn).createCollection("servers");
                 await client.db(dbn).createCollection("reminders");
+                await client.db(dbn).createCollection("config");
             }
             catch (error) {
             }
@@ -47,6 +48,10 @@ async function inserUser(user) {
     await client.db(dbn).collection("users").insertOne(user);
 }
 exports.inserUser = inserUser;
+async function deleteUser(id) {
+    await client.db(dbn).collection("users").deleteOne({ _id: id });
+}
+exports.deleteUser = deleteUser;
 async function getUser(id) {
     return await client.db(dbn).collection("users").findOne({ _id: id });
 }
@@ -102,3 +107,19 @@ async function deleteServer(_id) {
     client.db(dbn).collection("servers").deleteOne({ _id });
 }
 exports.deleteServer = deleteServer;
+async function insertConfig(c) {
+    await client.db(dbn).collection("config").insertOne(c);
+}
+exports.insertConfig = insertConfig;
+async function getConfig() {
+    return client.db(dbn).collection("config").findOne({ _id: 1 });
+}
+exports.getConfig = getConfig;
+async function updateConfig(config, upsert) {
+    client.db(dbn).collection("config").updateOne({ _id: config._id }, { $set: config }, { upsert: true });
+}
+exports.updateConfig = updateConfig;
+async function deleteConfig(_id) {
+    client.db(dbn).collection("config").deleteOne({ _id });
+}
+exports.deleteConfig = deleteConfig;

@@ -1,13 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const mod_1 = require("./economy/owner/mod");
 const store_1 = require("./economy/store");
 const work_1 = require("./economy/work");
 const ping_1 = require("./ping");
 const guild_1 = require("./server/guild");
 const create_1 = require("./util/create");
-const stat_1 = require("./util/stat");
+const stat_1 = require("./economy/stat");
 exports.default = [
     create_1.createuser,
+    create_1.userdelete,
     ping_1.ping,
     ping_1.nerdping,
     stat_1.userstats,
@@ -16,5 +18,6 @@ exports.default = [
     work_1.beg,
     create_1.rename,
     store_1.store,
-    store_1.buy
+    store_1.buy,
+    mod_1.modadd
 ];

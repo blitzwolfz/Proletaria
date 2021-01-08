@@ -1,6 +1,7 @@
-import { reminder, server, user } from "../types";
+import { config, reminder, server, user } from "../types";
 export declare function connectToDB(): Promise<void>;
 export declare function inserUser(user: user): Promise<void>;
+export declare function deleteUser(id: string): Promise<void>;
 export declare function getUser(id: string): Promise<user | null>;
 export declare function getUsers(): Promise<user[]>;
 export declare function updateUser(user: user): Promise<void>;
@@ -14,3 +15,7 @@ export declare function getServer(_id: string): Promise<server>;
 export declare function getServers(): Promise<server[]>;
 export declare function updateServer(server: server, upsert: boolean): Promise<void>;
 export declare function deleteServer(_id: string): Promise<void>;
+export declare function insertConfig(c: config): Promise<void>;
+export declare function getConfig(): Promise<config>;
+export declare function updateConfig(config: config, upsert: boolean): Promise<void>;
+export declare function deleteConfig(_id: string): Promise<void>;

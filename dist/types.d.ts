@@ -12,12 +12,31 @@ export interface user {
         money: number;
         currencyname: string;
         food: number;
-        people: number;
+        people: {
+            clone: number;
+            human: number;
+        };
         peoplename: string;
+        metal: number;
+        energy: number;
     };
-    army: number;
+    generators: {
+        mines: number;
+        energy: {
+            renewable: number;
+            hotfusion: number;
+            coldfusion: number;
+        };
+    };
+    army: {
+        corpo: number;
+        citizen: number;
+    };
     armyname: string;
-    navy: number;
+    navy: {
+        corpo: number;
+        citizen: number;
+    };
     navyname: string;
 }
 export interface server {
@@ -30,4 +49,41 @@ export interface reminder {
     type: "food" | "work";
     time: number;
     channel: string;
+}
+export interface config {
+    _id: 1;
+    removecommands: Array<string>;
+    lockedcommands: Array<string>;
+    lastpayout: Number;
+    mods: Array<string>;
+}
+export interface soldier {
+    type: "private" | "citizen";
+    costs: {
+        money: number;
+        food: number;
+        metal: number;
+        energy: number;
+    };
+    power: number;
+}
+export interface ship {
+    type: "private" | "citizen";
+    costs: {
+        money: number;
+        food: number;
+        metal: number;
+        energy: number;
+    };
+    power: number;
+}
+export interface energy {
+    type: "private" | "citizen";
+    costs: {
+        money: number;
+        food: number;
+        metal: number;
+        energy: number;
+    };
+    power: number;
 }

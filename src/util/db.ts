@@ -1,5 +1,5 @@
 import * as mongodb from "mongodb"
-import { reminder, server, user } from "../types"
+import { config, reminder, server, user } from "../types"
 require("dotenv").config();
 const url: string = process.env.MONGOURL!;
 const client = new mongodb.MongoClient(url, { useNewUrlParser: true, connectWithNoPrimary: false, useUnifiedTopology: true });
@@ -13,6 +13,7 @@ export async function connectToDB(): Promise<void> {
                 await client.db(dbn).createCollection("users");
                 await client.db(dbn).createCollection("servers");
                 await client.db(dbn).createCollection("reminders");
+                await client.db(dbn).createCollection("config");
             } catch (error) {
                 
             }
@@ -25,6 +26,10 @@ export async function connectToDB(): Promise<void> {
 //User db commands
 export async function inserUser(user:user) {
     await client.db(dbn).collection("users").insertOne(user) 
+}
+
+export async function deleteUser(id:string)  {
+    await client.db(dbn).collection("users").deleteOne({_id:id})
 }
 
 export async function getUser(id:string): Promise<user | null> {
@@ -82,4 +87,21 @@ export async function updateServer(server: server, upsert: boolean) {
 
 export async function deleteServer(_id: string) {
     client.db(dbn).collection("servers").deleteOne({ _id });
+}
+
+//Config db commands
+export async function insertConfig(c:config) {
+    await client.db(dbn).collection("config").insertOne(c)
+}
+
+export async function getConfig(): Promise<config> {
+    return client.db(dbn).collection("config").findOne({ _id:1 })!;
+}
+
+export async function updateConfig(config: config, upsert: boolean) {
+    client.db(dbn).collection("config").updateOne({ _id: config._id }, { $set: config }, { upsert:true });
+}
+
+export async function deleteConfig(_id: string) {
+    client.db(dbn).collection("config").deleteOne({ _id });
 }
