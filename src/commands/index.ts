@@ -7,6 +7,7 @@ import { prefix } from "./server/guild"
 import  { createuser, rename, userdelete } from "./util/create"
 import  { earnings, userstats } from "./economy/stat"
 import { guide, help } from "./util/help"
+import { lb } from "./leaderboards"
 
 export default [
     createuser,
@@ -24,4 +25,5 @@ export default [
     help,
     guide,
     earnings,
+    lb
 ]

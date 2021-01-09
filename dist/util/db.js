@@ -60,7 +60,11 @@ async function getUser(id) {
     return await client.db(dbn).collection("users").findOne({ _id: id });
 }
 exports.getUser = getUser;
-async function getUsers() {
+async function getUsers(field, secondary) {
+    if (secondary)
+        return await client.db(dbn).collection("users").find({}).sort({ [field]: -1, [secondary]: -1 }).toArray();
+    if (field)
+        return await client.db(dbn).collection("users").find({}).sort({ [field]: -1 }).toArray();
     return await client.db(dbn).collection("users").find({}).toArray();
 }
 exports.getUsers = getUsers;

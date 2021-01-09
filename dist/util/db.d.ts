@@ -4,7 +4,7 @@ export declare function updater(coll: string, filter: object, update: object): P
 export declare function inserUser(user: user): Promise<void>;
 export declare function deleteUser(id: string): Promise<void>;
 export declare function getUser(id: string): Promise<user | null>;
-export declare function getUsers(): Promise<user[]>;
+export declare function getUsers(field?: string, secondary?: string): Promise<user[]>;
 export declare function updateUser(user: user): Promise<void>;
 export declare function inserReminder(r: reminder): Promise<void>;
 export declare function getReminder(id: string): Promise<reminder | null>;

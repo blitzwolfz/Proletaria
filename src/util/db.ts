@@ -41,7 +41,9 @@ export async function getUser(id:string): Promise<user | null> {
     return await client.db(dbn).collection("users").findOne({_id:id}) 
 }
 
-export async function getUsers(): Promise<user[]> {
+export async function getUsers(field?:string, secondary?:string): Promise<user[]> {
+    if(secondary) return await client.db(dbn).collection("users").find({}).sort({[field!]: -1, [secondary!]: -1}).toArray()!
+    if(field) return await client.db(dbn).collection("users").find({}).sort({[field!]: -1}).toArray()!
     return await client.db(dbn).collection("users").find({}).toArray()!
 }
 
