@@ -25,7 +25,9 @@ export const userstats: Command = {
             .setColor('#BC0057')
             .setThumbnail(`${id.displayAvatarURL()}`)
             .addFields(
-                { name: 'Money', value: `${u.resources.money} ${u.resources.currencyname}`, inline:false },
+                { name: 'Money', value: `${u.resources.money} ${u.resources.currencyname}`, inline:true },
+                { name: 'Mines', value: `${u.generators.mines}`, inline:true },
+                { name: 'Debt Capacity ', value: `${((u.resources.people.clone + u.resources.people.human)*0.5)*100}%`, inline:true },
 
                 //{ name: '\u200b', value: '\u200b' },
                 { name: `Total Population`, value: `${u.resources.people.clone + u.resources.people.human} ${u.resources.peoplename}`, inline:true },
