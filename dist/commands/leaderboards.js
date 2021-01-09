@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.lbBuilder = exports.lb = void 0;
+exports.lb = void 0;
 const db_1 = require("../util/db");
 exports.lb = {
     name: "lb",
@@ -67,8 +67,8 @@ exports.lb = {
 };
 async function lbBuilder(page = 1, client, data, id, symbol, secondary) {
     page = page < 1 ? 1 : page;
-    if (page > data.length) {
-        page = 0;
+    if (page > Math.floor(data.length / 10)) {
+        page = 1;
     }
     const fields = [];
     let index = (0 + page - 1) * 10;
@@ -78,7 +78,19 @@ async function lbBuilder(page = 1, client, data, id, symbol, secondary) {
             try {
                 fields.push({
                     name: `${i + 1}) ${await (await client.users.fetch(obj._id)).username}`,
-                    value: `${obj[symbol] + obj[secondary]}`
+                    value: `${obj[symbol.split(".")[0]][symbol.split(".")[1]] + obj[secondary.split(".")[0]][secondary.split(".")[1]]}`
+                });
+            }
+            catch {
+                continue;
+            }
+        }
+        else if (symbol.split(".").length < 3) {
+            let obj = data[i];
+            try {
+                fields.push({
+                    name: `${i + 1}) ${await (await client.users.fetch(obj._id)).username}`,
+                    value: `${obj[symbol.split(".")[0]][symbol.split(".")[1]]}`
                 });
             }
             catch {
@@ -90,7 +102,7 @@ async function lbBuilder(page = 1, client, data, id, symbol, secondary) {
             try {
                 fields.push({
                     name: `${i + 1}) ${await (await client.users.fetch(obj._id)).username}`,
-                    value: `${obj[symbol]}`
+                    value: `${obj[symbol.split(".")[0]][symbol.split(".")[1]][symbol.split(".")[2]]}`
                 });
             }
             catch {
@@ -106,4 +118,3 @@ async function lbBuilder(page = 1, client, data, id, symbol, secondary) {
         timestamp: new Date()
     };
 }
-exports.lbBuilder = lbBuilder;

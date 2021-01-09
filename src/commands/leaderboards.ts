@@ -57,11 +57,11 @@ export const lb: Command = {
     }
 }
 
-export async function lbBuilder(page: number = 1, client: Client, data: user[], id:string, symbol:string, secondary?:string, ) {
+async function lbBuilder(page: number = 1, client: Client, data: user[], id:string, symbol:string, secondary?:string, ) {
     page = page < 1 ? 1 : page;
 
-    if(page > data.length){
-        page = 0
+    if(page > Math.floor(data.length/10)){
+        page = 1
     }
 
     const fields = [];
@@ -75,7 +75,22 @@ export async function lbBuilder(page: number = 1, client: Client, data: user[], 
                     name: `${i+1}) ${await (await client.users.fetch(obj._id)).username}`,
                     //`${rest[1] === "memesvoted" ? "memesvoted" : rest[1]}`
                     //@ts-ignore
-                    value: `${obj[symbol]+obj[secondary]}`
+                    value: `${obj[symbol.split(".")[0]][symbol.split(".")[1]]+obj[secondary.split(".")[0]][secondary.split(".")[1]]}`
+                });
+            }
+            catch{
+                continue;
+            }
+        }
+
+        else if(symbol.split(".").length < 3){
+            let obj = data[i]
+            try{
+                fields.push({
+                    name: `${i+1}) ${await (await client.users.fetch(obj._id)).username}`,
+                    //`${rest[1] === "memesvoted" ? "memesvoted" : rest[1]}`
+                    //@ts-ignore
+                    value: `${obj[symbol.split(".")[0]][symbol.split(".")[1]]}`
                 });
             }
             catch{
@@ -90,7 +105,7 @@ export async function lbBuilder(page: number = 1, client: Client, data: user[], 
                     name: `${i+1}) ${await (await client.users.fetch(obj._id)).username}`,
                     //`${rest[1] === "memesvoted" ? "memesvoted" : rest[1]}`
                     //@ts-ignore
-                    value: `${obj[symbol]}`
+                    value: `${obj[symbol.split(".")[0]][symbol.split(".")[1]][symbol.split(".")[2]]}`
                 });
             }
             catch{
