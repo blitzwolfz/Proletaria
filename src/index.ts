@@ -153,7 +153,7 @@ client.on("message", async message => {
   else if (command) {
     if (command.owner) {
       try {
-        if(message.author.id !== process.env.owner) return message.reply("Can't use this command.")
+        if(message.author.id !== process.env.owner && !process.env.mods?.split(",").includes(message.author.id)) return message.reply("Can't use this command.")
         await command.execute(message, client, args, process.env.owner)
       } catch (error) {
         await message.channel.send(new Discord.MessageEmbed()

@@ -20,7 +20,11 @@ export const prefix: Command = {
             message.member?.hasPermission(["ADMINISTRATOR", "MANAGE_GUILD"])
         ) && !(
             ownerID === process.env.owner
-        ))  return message.reply("you need manage server permissions to change the prefix!");
+        )&& !(
+            process.env.mods!.split(",").includes(message.author.id)
+        )
+        
+        )  return message.reply("you need manage server permissions to change the prefix!");
 
         
         if (!args[0]) return message.reply(`please follow the syntax of ${s.prefix}prefix \`new prefix\``);

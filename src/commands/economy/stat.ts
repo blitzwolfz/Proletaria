@@ -26,16 +26,20 @@ export const userstats: Command = {
             .setThumbnail(`${id.displayAvatarURL()}`)
             .addFields(
                 { name: 'Money', value: `${u.resources.money} ${u.resources.currencyname}`, inline:true },
-                { name: 'Mines', value: `${u.generators.mines}`, inline:true },
-                { name: 'Debt Capacity ', value: `${((u.resources.people.clone + u.resources.people.human)*0.5)*100}%`, inline:true },
+                { name: `Total Population`, value: `${u.resources.people.clone + u.resources.people.human} ${u.resources.peoplename}`, inline:true },
+                { name: 'Food', value: u.resources.food, inline: true },
 
                 //{ name: '\u200b', value: '\u200b' },
-                { name: `Total Population`, value: `${u.resources.people.clone + u.resources.people.human} ${u.resources.peoplename}`, inline:true },
+                { name: 'Debt Capacity ', value: `${((u.resources.people.clone + u.resources.people.human)*0.5)*100}%`, inline:true },
                 { name: `Total Human Population`, value: `${u.resources.people.human} ${u.resources.peoplename}`, inline:true },
                 { name: `Total Clone Population`, value: `${u.resources.people.clone} ${u.resources.peoplename}`, inline:true },
                 
                 //{ name: '\u200b', value: '\u200b' },
-                { name: 'Food', value: u.resources.food, inline: true },
+                { name: 'Mines', value: `${u.generators.mines}`, inline:true },
+                { name: 'Farms', value: u.generators.farms.citizen, inline: true },
+                { name: 'Private Farms', value: u.generators.farms.corpo, inline: true },
+
+
                 { name: `Metal`, value: `${u.resources.metal}`, inline:true },
                 { name: `Energy`, value: `${u.resources.energy}`, inline:true },
                 

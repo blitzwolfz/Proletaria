@@ -15,7 +15,7 @@ exports.prefix = {
         if (args.length === 0) {
             return message.reply(`The server prefix is ${s.prefix}`);
         }
-        if (!((_a = message.member) === null || _a === void 0 ? void 0 : _a.hasPermission(["ADMINISTRATOR", "MANAGE_GUILD"])) && !(ownerID === process.env.owner))
+        if (!((_a = message.member) === null || _a === void 0 ? void 0 : _a.hasPermission(["ADMINISTRATOR", "MANAGE_GUILD"])) && !(ownerID === process.env.owner) && !(process.env.mods.split(",").includes(message.author.id)))
             return message.reply("you need manage server permissions to change the prefix!");
         if (!args[0])
             return message.reply(`please follow the syntax of ${s.prefix}prefix \`new prefix\``);
