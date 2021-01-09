@@ -19,7 +19,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteConfig = exports.updateConfig = exports.getConfig = exports.insertConfig = exports.deleteServer = exports.updateServer = exports.getServers = exports.getServer = exports.insertServer = exports.deleteReminder = exports.updateReminder = exports.getReminders = exports.getReminder = exports.inserReminder = exports.updateUser = exports.getUsers = exports.getUser = exports.deleteUser = exports.inserUser = exports.connectToDB = void 0;
+exports.deleteConfig = exports.updateConfig = exports.getConfig = exports.insertConfig = exports.deleteServer = exports.updateServer = exports.getServers = exports.getServer = exports.insertServer = exports.deleteReminder = exports.updateReminder = exports.getReminders = exports.getReminder = exports.inserReminder = exports.updateUser = exports.getUsers = exports.getUser = exports.deleteUser = exports.inserUser = exports.updater = exports.connectToDB = void 0;
 const mongodb = __importStar(require("mongodb"));
 require("dotenv").config();
 const url = process.env.MONGOURL;
@@ -44,6 +44,10 @@ async function connectToDB() {
     });
 }
 exports.connectToDB = connectToDB;
+async function updater(coll, filter, update) {
+    await client.db(dbn).collection(coll).updateMany(filter, update);
+}
+exports.updater = updater;
 async function inserUser(user) {
     await client.db(dbn).collection("users").insertOne(user);
 }

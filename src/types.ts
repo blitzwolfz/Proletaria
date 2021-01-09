@@ -24,12 +24,16 @@ export interface user {
         energy: number;
     },
     generators: {
-        mines: number,
+        mines: number;
         energy: {
             renewable: number,
             hotfusion: number,
             coldfusion: number,
-        }
+        },
+        farms:{
+            citizen:number,
+            corpo:number,
+        },
     },
     army: {
         corpo: number;
@@ -60,8 +64,9 @@ export interface config{
     _id:1;
     removecommands:Array<string>;
     lockedcommands:Array<string>;
-    lastpayout:Number;
+    lastpayout:number;
     mods:Array<string>;
+    colour:string
 }
 
 export interface soldier{

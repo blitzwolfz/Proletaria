@@ -7,7 +7,7 @@ exports.createuser = {
     name: "create",
     description: "Create your user profile",
     group: "utility",
-    owner: true,
+    owner: false,
     async execute(message, client, args, ownerID) {
         if (await db_1.getUser(message.author.id))
             return message.reply("You already have an account");
@@ -19,16 +19,16 @@ exports.createuser = {
         let u = {
             _id: message.author.id,
             resources: {
-                money: 0,
+                money: 1000,
                 currencyname: args[0],
-                food: 0,
+                food: 1000,
                 people: {
                     clone: 0,
-                    human: 0,
+                    human: 1000,
                 },
                 peoplename: args[1],
-                metal: 0,
-                energy: 0,
+                metal: 1000,
+                energy: 1000,
             },
             generators: {
                 mines: 0,
@@ -36,7 +36,11 @@ exports.createuser = {
                     renewable: 0,
                     hotfusion: 0,
                     coldfusion: 0,
-                }
+                },
+                farms: {
+                    corpo: 0,
+                    citizen: 0,
+                },
             },
             army: {
                 corpo: 0,
@@ -70,6 +74,10 @@ exports.createuser = {
                         renewable: Infinity,
                         hotfusion: Infinity,
                         coldfusion: Infinity,
+                    },
+                    farms: {
+                        corpo: Infinity,
+                        citizen: Infinity,
                     }
                 },
                 army: {

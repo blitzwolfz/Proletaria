@@ -2,7 +2,7 @@ const glob = require("glob") // included by discord.js allow this import
 import { promisify } from "util" // Included by default
 import { Command } from "./types"
 import * as Discord from "discord.js"
-import { connectToDB, deleteServer, getConfig, getServer, getServers, insertServer, updateConfig, updateServer } from "./util/db"
+import { connectToDB, deleteServer, getServer, getServers, insertServer, updateServer } from "./util/db"
 require('dotenv').config()
 
 
@@ -15,7 +15,7 @@ export const client = new Discord.Client
 
 export let prefix: string = process.env.prefix!
 import * as c from "./commands/index"
-import { megaloop } from "./commands/util/loops"
+import { megaloop, payouts } from "./commands/util/loops"
 //console.log(c.default)
 //@ts-ignore
 var commands: Command[] = c.default
@@ -44,13 +44,17 @@ client.once("ready", async () => {
   // await commandloader(commands, `${__dirname}/commands/*.js`)
   // await commandloader(commands, `${__dirname}/commands/economy/*.js`)
   // await commandloader(commands, `${__dirname}/commands/util/*.js`)
-  await connectToDB()
-
+  await connectToDB().then(async () => {
+    console.log("\n")
+    // await updater("users", {'generators.farms.citizen': {$exists : false}}, {$set: {'generators.farms.citizen': 0}})
+    // await updater("users", {'generators.farms.corpo': {$exists : false}}, {$set: {'generators.farms.corpo': 0}})
+  })
 
   setInterval(async function () {
     // console.log("A Kiss every 5 seconds");
     //console.time("Big loop goes brrr in")
     await megaloop(client)
+    await payouts()
     //console.timeEnd("Big loop goes brrr in")
   }, 1000);
 
@@ -61,12 +65,25 @@ client.once("ready", async () => {
           updateServer({
             _id: el.id,
             name: el.name,
-            prefix: (await getServer(el.id))?.prefix || "??"
+            prefix: (await getServer(el.id))?.prefix || "p+"
           }, true);
         });
     });
   } catch (e) {
     console.log("Could not update all servers")
+  }
+
+  try {
+    await getServers().then(async server => {
+      server.forEach(async s => {
+        if (!client.guilds.cache.array().find(x => x.id === s._id)) {
+          deleteServer(s._id)
+        }
+      }
+      )
+    })
+  } catch (error) {
+    console.log("Removed servers")
   }
 
   console.log(`Logged in as ${client.user?.tag}\nPrefix is ${prefix}`)
@@ -119,47 +136,21 @@ client.on("message", async message => {
     }
   } else return;
 
+  if(message.channel.type !== "text") return;
 
   const commandName: string | undefined = args?.shift()?.toLowerCase();
 
   if (!commandName) return
 
-  console.log(commandName)
+  const command = commands.find(c => c.name.toLowerCase() === commandName)
 
   if (commandName === "test") {
     if(message.author.id !== process.env.owner){
-      await message.reply("nah b")
+      return await message.reply("nah b")
     }
   }
 
-  if (commandName === "removecommands") {
-    if(message.author.id !== process.env.owner){
-      await message.reply("nah b")
-    }
-    await message.reply(await removecommands(commands, args))
-  }
-
-  if (commandName === "reloadcommands") {
-    if(message.author.id !== process.env.owner){
-      await message.reply("nah b")
-    }
-    await message.reply(await reloadcommands(commands))
-  }
-
-  if (commandName === "allcommands") {
-    if(message.author.id !== process.env.owner){
-      await message.reply("nah b")
-    }
-    await message.channel.send("Commands available are:")
-    for(let cc of commands){
-      if(!await (await getConfig()).removecommands.includes(cc.name))
-      await message.channel.send(cc.name)
-    }
-  }
-
-  const command = commands.find(c => c.name.toLowerCase() === commandName)
-
-  if (command) {
+  else if (command) {
     if (command.owner) {
       try {
         if(message.author.id !== process.env.owner) return message.reply("Can't use this command.")
@@ -177,6 +168,7 @@ client.on("message", async message => {
           { name: 'User Id', value: `${message.author.id}`, inline:true },
         )
         .setDescription(`\`\`\`${error.message}\`\`\``)
+        .setFooter("blitzwolfz#9338", "https://cdn.discordapp.com/avatars/239516219445608449/12fa541557ca2635a34a5af5e8c65d26.webp?size=512")
       )
       }
     }
@@ -187,6 +179,7 @@ client.on("message", async message => {
         
       } catch (error) {
         await message.channel.send(new Discord.MessageEmbed()
+          .setFooter("blitzwolfz#9338", "https://cdn.discordapp.com/avatars/239516219445608449/12fa541557ca2635a34a5af5e8c65d26.webp?size=512")
           .setColor("RED")
           .setTitle("ERROR")
           .addFields(
@@ -203,48 +196,5 @@ client.on("message", async message => {
     }
   }
 })
-
-export async function reloadcommands(localcommands: Command[]) {
-  localcommands = c.default
-
-  let config = await getConfig()
-  config.removecommands = []
-
-  await updateConfig(config, true)
-  commands = localcommands
-  return "Reloaded commands"
-}
-
-export async function removecommands(localcommands: Command[], args:string[]) {
-  console.log(localcommands.length)
-  args = args.join(" ").split(/[,]+/)
-  console.log(args)
-  let config = await getConfig()
-
-  for(let co of localcommands){
-    console.log(co.name)
-    console.log(args.includes(co.name))
-    if(args.includes(co.name)) config.removecommands.push(co.name)
-  }
-  await updateConfig(config, true)
-
-  await updatecommands(localcommands)
-
-
-  return "Removed commands"
-}
-
-export async function updatecommands(localcommands: Command[]) {
-  localcommands = []
-  console.log(localcommands)
-  let config = await getConfig()
-
-  for(let cc of c.default){
-    if(!config.removecommands.includes(cc.name)) localcommands.push(cc)
-  }
-  console.log(localcommands)
-
-  commands = localcommands
-}
 
 client.login(process.env.token2!)

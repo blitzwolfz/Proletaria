@@ -5,7 +5,8 @@ import { beg, work } from "./economy/work"
 import  { nerdping, ping } from "./ping"
 import { prefix } from "./server/guild"
 import  { createuser, rename, userdelete } from "./util/create"
-import  { userstats } from "./economy/stat"
+import  { earnings, userstats } from "./economy/stat"
+import { guide, help } from "./util/help"
 
 export default [
     createuser,
@@ -19,5 +20,8 @@ export default [
     rename, 
     store,
     buy,
-    modadd
+    modadd,
+    help,
+    guide,
+    earnings,
 ]

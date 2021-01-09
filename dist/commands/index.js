@@ -7,6 +7,7 @@ const ping_1 = require("./ping");
 const guild_1 = require("./server/guild");
 const create_1 = require("./util/create");
 const stat_1 = require("./economy/stat");
+const help_1 = require("./util/help");
 exports.default = [
     create_1.createuser,
     create_1.userdelete,
@@ -19,5 +20,8 @@ exports.default = [
     create_1.rename,
     store_1.store,
     store_1.buy,
-    mod_1.modadd
+    mod_1.modadd,
+    help_1.help,
+    help_1.guide,
+    stat_1.earnings,
 ];

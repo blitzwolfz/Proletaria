@@ -1,5 +1,6 @@
 import { config, reminder, server, user } from "../types";
 export declare function connectToDB(): Promise<void>;
+export declare function updater(coll: string, filter: object, update: object): Promise<void>;
 export declare function inserUser(user: user): Promise<void>;
 export declare function deleteUser(id: string): Promise<void>;
 export declare function getUser(id: string): Promise<user | null>;

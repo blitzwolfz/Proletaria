@@ -8,7 +8,7 @@ export const createuser: Command = {
     name: "create",
     description: "Create your user profile",
     group:"utility",
-    owner:true,
+    owner:false,
     async execute(message: Message, client:Client, args: string[], ownerID:string){
 
         if(await getUser(message.author.id)) return message.reply("You already have an account")
@@ -22,16 +22,16 @@ export const createuser: Command = {
         let u:user = {
             _id:message.author.id,
             resources:{
-                money: 0,
+                money: 1000,
                 currencyname:args[0],
-                food: 0,
+                food: 1000,
                 people:{
                     clone:0,
-                    human:0,
+                    human:1000,
                 },
                 peoplename:args[1],
-                metal: 0,
-                energy: 0,
+                metal: 1000,
+                energy: 1000,
             },
             generators: {
                 mines: 0,
@@ -39,7 +39,11 @@ export const createuser: Command = {
                     renewable: 0,
                     hotfusion: 0,
                     coldfusion: 0,
-                }
+                },
+                farms:{
+                    corpo: 0,
+                    citizen:0,
+                },
             },
             army:{
                 corpo:0,
@@ -74,6 +78,10 @@ export const createuser: Command = {
                         renewable: Infinity,
                         hotfusion: Infinity,
                         coldfusion: Infinity,
+                    },
+                    farms:{
+                        corpo: Infinity,
+                        citizen: Infinity,
                     }
                 },
                 army:{

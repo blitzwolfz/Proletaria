@@ -23,6 +23,11 @@ export async function connectToDB(): Promise<void> {
     });
 }
 
+//General db commands
+export async function updater(coll:string, filter:object, update:object){
+    await client.db(dbn).collection(coll).updateMany(filter, update)
+}
+
 //User db commands
 export async function inserUser(user:user) {
     await client.db(dbn).collection("users").insertOne(user) 
