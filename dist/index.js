@@ -163,4 +163,7 @@ exports.client.on("message", async (message) => {
         }
     }
 });
-exports.client.login(process.env.token2);
+if (process.env.dev)
+    exports.client.login(process.env.TOKEN);
+else
+    exports.client.login(process.env.token2);

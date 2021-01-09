@@ -110,11 +110,22 @@ async function lbBuilder(page = 1, client, data, id, symbol, secondary) {
             }
         }
     }
+    let itemSort = await (await myFunction(symbol, secondary));
     return {
-        title: `. You are on page ${page || 1} of ${Math.floor(data.length / 10) + 1}`,
+        title: `Leaderboard sorted by ${itemSort}.\nYou are on page ${page || 1} of ${Math.floor(data.length / 10) + 1}`,
         description: `Your rank is: ${data.findIndex(item => item._id == id) + 1}`,
         fields,
         color: await (await db_1.getConfig()).colour,
         timestamp: new Date()
     };
+}
+async function myFunction(symbol, s) {
+    if (symbol.split(".").length === 3) {
+        return symbol.split(".")[2].charAt(0).toUpperCase() + symbol.split(".")[2].slice(1);
+    }
+    else {
+        if (symbol.split(".")[0] === "army" || symbol.split(".")[0] === "navy")
+            return symbol.split(".")[0].charAt(0).toUpperCase() + symbol.split(".")[0].slice(1);
+        return symbol.split(".")[1].charAt(0).toUpperCase() + symbol.split(".")[1].slice(1);
+    }
 }

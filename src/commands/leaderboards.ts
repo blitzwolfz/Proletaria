@@ -114,14 +114,31 @@ async function lbBuilder(page: number = 1, client: Client, data: user[], id:stri
         }
     }
 
+    let itemSort = await (await myFunction(symbol, secondary))
+
+
     return {
-        title: `. You are on page ${page! || 1} of ${Math.floor(data.length / 10) + 1}`,
+        title: `Leaderboard sorted by ${itemSort}.\nYou are on page ${page! || 1} of ${Math.floor(data.length / 10) + 1}`,
         description: `Your rank is: ${data.findIndex(item => item._id == id) + 1}`,
         fields,
         color: await (await getConfig()).colour,
         timestamp: new Date()
     };
 }
+
+async function myFunction(symbol:string, s?:string) {
+    if(symbol.split(".").length === 3){
+        return symbol.split(".")[2].charAt(0).toUpperCase() + symbol.split(".")[2].slice(1)
+    }
+
+    else{
+        //symbol.charAt(0).toUpperCase() + symbol.slice(1);
+        if(symbol.split(".")[0] === "army" || symbol.split(".")[0] === "navy") return symbol.split(".")[0].charAt(0).toUpperCase() + symbol.split(".")[0].slice(1)
+       
+        return symbol.split(".")[1].charAt(0).toUpperCase() + symbol.split(".")[1].slice(1)
+    }
+}
+  
 
 // export async function winlistEmbed(page: number = 1, client: Discord.Client, ratings: user[],...rest:any){
 

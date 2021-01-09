@@ -197,4 +197,5 @@ client.on("message", async message => {
   }
 })
 
-client.login(process.env.token2!)
+if(process.env.dev) client.login(process.env.TOKEN!)
+else client.login(process.env.token2!)
