@@ -37,7 +37,7 @@ exports.earnings = {
         let pE = `${10 * (u.resources.people.human + u.resources.people.clone)} - ${15 * (u.resources.people.human + u.resources.people.clone)}`;
         let fE = `${(u.generators.farms.citizen * 1000) + (u.generators.farms.corpo * 10000)}`;
         let mE = `${u.generators.mines * 200}`;
-        let eE = `${(u.generators.energy.renewable * 100) + (u.generators.energy.hotfusion * 1000) + (u.generators.energy.coldfusion * 20000)}`;
+        let eE = `${(u.generators.energy.renewable * 300) + (u.generators.energy.hotfusion * 1000) + (u.generators.energy.coldfusion * 20000)}`;
         let pC = (u.resources.people.human + u.resources.people.clone) * 10
             + u.generators.farms.citizen * 100
             + u.generators.farms.corpo * 1000
