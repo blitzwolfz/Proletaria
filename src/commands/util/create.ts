@@ -36,13 +36,13 @@ export const createuser: Command = {
             generators: {
                 mines: 0,
                 energy: {
-                    renewable: 0,
+                    renewable: 2,
                     hotfusion: 0,
                     coldfusion: 0,
                 },
                 farms:{
                     corpo: 0,
-                    citizen:0,
+                    citizen:2,
                 },
             },
             army:{
