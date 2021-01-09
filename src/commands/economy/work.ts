@@ -19,7 +19,7 @@ export const work: Command = {
 
         let r = await getReminder(`${message.author.id}money`)
 
-        if(r === null ||Math.floor(Date.now()/1000) - r!.time > 900){
+        if(!r || Math.floor(Date.now()/1000) - r!.time > 900){
             let m = Math.floor(Math.random() * 1000) + 1;
             u.resources.money += m
     
@@ -36,7 +36,7 @@ export const work: Command = {
         }
 
         else{
-            return message.reply(`You can work again in ${await toHHMMSS(r.time, 900)}`)
+            return message.reply(`You can work again in ${await toHHMMSS(r!.time, 900)}`)
         }
     }
 }
@@ -55,7 +55,7 @@ export const beg: Command = {
 
         let r = await getReminder(`${message.author.id}food`)
 
-        if(r === null || Math.floor(Date.now()/1000) - r!.time > 3600){
+        if(!r || Math.floor(Date.now()/1000) - r!.time > 3600){
             let f = Math.floor(Math.random() * 1000) + 1;
             u.resources.food += f
     
@@ -72,7 +72,7 @@ export const beg: Command = {
         }
 
         else{
-            return message.reply(`You can beg again in ${await toHHMMSS(r.time, 3600)}`)
+            return message.reply(`You can beg again in ${await toHHMMSS(r!.time, 3600)}`)
         }
     }
 }

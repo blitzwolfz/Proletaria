@@ -14,7 +14,7 @@ exports.work = {
             return message.reply("Please make a user account using the create command");
         }
         let r = await db_1.getReminder(`${message.author.id}money`);
-        if (r === null || Math.floor(Date.now() / 1000) - r.time > 900) {
+        if (!r || Math.floor(Date.now() / 1000) - r.time > 900) {
             let m = Math.floor(Math.random() * 1000) + 1;
             u.resources.money += m;
             await db_1.updateUser(u);
@@ -42,7 +42,7 @@ exports.beg = {
             return message.reply("Please make a user account using the create command");
         }
         let r = await db_1.getReminder(`${message.author.id}food`);
-        if (r === null || Math.floor(Date.now() / 1000) - r.time > 3600) {
+        if (!r || Math.floor(Date.now() / 1000) - r.time > 3600) {
             let f = Math.floor(Math.random() * 1000) + 1;
             u.resources.food += f;
             await db_1.updateUser(u);

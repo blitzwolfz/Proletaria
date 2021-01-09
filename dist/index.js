@@ -61,7 +61,7 @@ exports.client.once("ready", async () => {
                     db_1.updateServer({
                         _id: el.id,
                         name: el.name,
-                        prefix: ((_a = (await db_1.getServer(el.id))) === null || _a === void 0 ? void 0 : _a.prefix) || "??"
+                        prefix: ((_a = (await db_1.getServer(el.id))) === null || _a === void 0 ? void 0 : _a.prefix) || "p+"
                     }, true);
                 });
         });
@@ -100,7 +100,7 @@ exports.client.on("guildDelete", async (guild) => {
         await db_1.deleteServer(guild.id);
 });
 exports.client.on("message", async (message) => {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
     if (message.author.bot) {
         return;
     }
@@ -128,7 +128,7 @@ exports.client.on("message", async (message) => {
         return;
     const command = commands.find(c => c.name.toLowerCase() === commandName);
     if (commandName === "test") {
-        if (message.author.id !== process.env.owner) {
+        if (message.author.id !== process.env.owner && !((_g = process.env.mods) === null || _g === void 0 ? void 0 : _g.split(",").includes(message.author.id))) {
             return await message.reply("nah b");
         }
     }
@@ -143,7 +143,7 @@ exports.client.on("message", async (message) => {
                 await message.channel.send(new Discord.MessageEmbed()
                     .setColor("RED")
                     .setTitle("ERROR")
-                    .addFields({ name: 'Channel Name', value: `${(await exports.client.channels.fetch(message.channel.id)).name}`, inline: true }, { name: 'Channel Id', value: `${message.channel.id}`, inline: true }, { name: 'Guild Id', value: `${(_g = message.guild) === null || _g === void 0 ? void 0 : _g.id}`, inline: true }, { name: 'Guild Name', value: `${(_h = message.guild) === null || _h === void 0 ? void 0 : _h.name}`, inline: true }, { name: 'User', value: `${message.author.tag}`, inline: true }, { name: 'User Id', value: `${message.author.id}`, inline: true })
+                    .addFields({ name: 'Channel Name', value: `${(await exports.client.channels.fetch(message.channel.id)).name}`, inline: true }, { name: 'Channel Id', value: `${message.channel.id}`, inline: true }, { name: 'Guild Id', value: `${(_h = message.guild) === null || _h === void 0 ? void 0 : _h.id}`, inline: true }, { name: 'Guild Name', value: `${(_j = message.guild) === null || _j === void 0 ? void 0 : _j.name}`, inline: true }, { name: 'User', value: `${message.author.tag}`, inline: true }, { name: 'User Id', value: `${message.author.id}`, inline: true })
                     .setDescription(`\`\`\`${error.message}\`\`\``)
                     .setFooter("blitzwolfz#9338", "https://cdn.discordapp.com/avatars/239516219445608449/12fa541557ca2635a34a5af5e8c65d26.webp?size=512"));
             }
@@ -157,7 +157,7 @@ exports.client.on("message", async (message) => {
                     .setFooter("blitzwolfz#9338", "https://cdn.discordapp.com/avatars/239516219445608449/12fa541557ca2635a34a5af5e8c65d26.webp?size=512")
                     .setColor("RED")
                     .setTitle("ERROR")
-                    .addFields({ name: 'Channel Name', value: `${(await exports.client.channels.fetch(message.channel.id)).name}`, inline: true }, { name: 'Channel Id', value: `${message.channel.id}`, inline: true }, { name: 'Guild Id', value: `${(_j = message.guild) === null || _j === void 0 ? void 0 : _j.id}`, inline: true }, { name: 'Guild Name', value: `${(_k = message.guild) === null || _k === void 0 ? void 0 : _k.name}`, inline: true }, { name: 'User', value: `${message.author.tag}`, inline: true }, { name: 'User Id', value: `${message.author.id}`, inline: true })
+                    .addFields({ name: 'Channel Name', value: `${(await exports.client.channels.fetch(message.channel.id)).name}`, inline: true }, { name: 'Channel Id', value: `${message.channel.id}`, inline: true }, { name: 'Guild Id', value: `${(_k = message.guild) === null || _k === void 0 ? void 0 : _k.id}`, inline: true }, { name: 'Guild Name', value: `${(_l = message.guild) === null || _l === void 0 ? void 0 : _l.name}`, inline: true }, { name: 'User', value: `${message.author.tag}`, inline: true }, { name: 'User Id', value: `${message.author.id}`, inline: true })
                     .setDescription(`\`\`\`${error.message}\`\`\``));
             }
         }

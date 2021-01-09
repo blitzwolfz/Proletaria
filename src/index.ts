@@ -145,7 +145,7 @@ client.on("message", async message => {
   const command = commands.find(c => c.name.toLowerCase() === commandName)
 
   if (commandName === "test") {
-    if(message.author.id !== process.env.owner){
+    if(message.author.id !== process.env.owner && !process.env.mods?.split(",").includes(message.author.id)){
       return await message.reply("nah b")
     }
   }
