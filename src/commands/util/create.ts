@@ -147,7 +147,7 @@ export const rename: Command = {
         if(args[0].toLowerCase() === "user"){
             let u = await getUser(message.author.id)
             if(!u) return message.reply("plese use create command to make an account")
-            if(args.length === 1) return message.reply("Please specifiy what you want to rename: pop, money, army, navy")
+            if(args.length === 1) return message.reply(`please specifiy which of these you want to rename: pop, money, army, navy.\n Example \`${await (await getServer(message.guild!.id)).prefix}rename user army Freedom Fighters\``)
 
             else{
 
