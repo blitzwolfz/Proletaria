@@ -51,26 +51,26 @@ export async function updateUser(user:user) {
 
 //Reminder db commands
 export async function inserReminder(r:reminder) {
-    await client.db(dbn).collection("reminders").insertOne(r) 
+    await client.db(dbn).collection("reminder").insert(r) 
 }
 
 export async function getReminder(id:string): Promise<reminder | null> {
-    return await client.db(dbn).collection("reminders").findOne({_id:id}) 
+    return await client.db(dbn).collection("reminder").findOne({_id:id}) 
 }
 
 export async function getReminders(q?:object): Promise<reminder[]> {
     if(q){
-        return await client.db(dbn).collection("reminders").find(q).toArray()
+        return await client.db(dbn).collection("reminder").find(q).toArray()
     }
-    return await client.db(dbn).collection("reminders").find({}).toArray()
+    return await client.db(dbn).collection("reminder").find({}).toArray()
 }
 
 export async function updateReminder(r:reminder) {
-    await client.db(dbn).collection("reminders").updateOne({_id:r._id}, {$set: r})    
+    await client.db(dbn).collection("reminder").updateOne({_id:r._id}, {$set: r})    
 }
 
 export async function deleteReminder(r:reminder) {
-    await client.db(dbn).collection("reminders").deleteOne({_id:r._id})  
+    await client.db(dbn).collection("reminder").deleteOne({_id:r._id})  
 }
 
 //Server db commands

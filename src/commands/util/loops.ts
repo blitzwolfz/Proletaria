@@ -24,16 +24,17 @@ export async function workreminderloop(client: Client) {
     )
 
     for (let i of r) {
-        if (Math.floor(Date.now() / 1000) - i.time > 900)
+        if (Math.floor(Date.now() / 1000) - i.time > 900){
             try {
                 (<TextChannel>await client.channels.fetch(i.channel)).send(
                     `<@${i._id.replace("money", "")}>, you can work again`
                 )
+                await deleteReminder(i)
             } catch (error) {
                 client.users.cache.get(i._id)?.send(`<@${i._id.replace("money", "")}>, you can work again`)
+                await deleteReminder(i)
             }
-
-        await deleteReminder(i)
+        }
     }
 }
 
@@ -42,7 +43,7 @@ export async function foodreminderloop(client:Client) {
         { type : "food" } 
     )
     for (let i of r) {
-        if (Math.floor(Date.now() / 1000) - i.time > 3600)
+        if (Math.floor(Date.now() / 1000) - i.time > 3600){
             try {
                 (<TextChannel>await client.channels.fetch(i.channel)).send(
                     `<@${i._id.replace("food", "")}>, you can beg again`
@@ -51,7 +52,8 @@ export async function foodreminderloop(client:Client) {
                 client.users.cache.get(i._id)?.send(`<@${i._id.replace("food", "")}>, you can beg again`)
             }
 
-        await deleteReminder(i)
+            await deleteReminder(i)
+        }
     }
 }
 

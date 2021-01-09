@@ -69,26 +69,26 @@ async function updateUser(user) {
 }
 exports.updateUser = updateUser;
 async function inserReminder(r) {
-    await client.db(dbn).collection("reminders").insertOne(r);
+    await client.db(dbn).collection("reminder").insert(r);
 }
 exports.inserReminder = inserReminder;
 async function getReminder(id) {
-    return await client.db(dbn).collection("reminders").findOne({ _id: id });
+    return await client.db(dbn).collection("reminder").findOne({ _id: id });
 }
 exports.getReminder = getReminder;
 async function getReminders(q) {
     if (q) {
-        return await client.db(dbn).collection("reminders").find(q).toArray();
+        return await client.db(dbn).collection("reminder").find(q).toArray();
     }
-    return await client.db(dbn).collection("reminders").find({}).toArray();
+    return await client.db(dbn).collection("reminder").find({}).toArray();
 }
 exports.getReminders = getReminders;
 async function updateReminder(r) {
-    await client.db(dbn).collection("reminders").updateOne({ _id: r._id }, { $set: r });
+    await client.db(dbn).collection("reminder").updateOne({ _id: r._id }, { $set: r });
 }
 exports.updateReminder = updateReminder;
 async function deleteReminder(r) {
-    await client.db(dbn).collection("reminders").deleteOne({ _id: r._id });
+    await client.db(dbn).collection("reminder").deleteOne({ _id: r._id });
 }
 exports.deleteReminder = deleteReminder;
 async function insertServer(s) {

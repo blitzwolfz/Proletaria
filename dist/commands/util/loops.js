@@ -22,14 +22,16 @@ async function workreminderloop(client) {
     var _a;
     let r = await db_1.getReminders({ type: "work" });
     for (let i of r) {
-        if (Math.floor(Date.now() / 1000) - i.time > 900)
+        if (Math.floor(Date.now() / 1000) - i.time > 900) {
             try {
                 (await client.channels.fetch(i.channel)).send(`<@${i._id.replace("money", "")}>, you can work again`);
+                await db_1.deleteReminder(i);
             }
             catch (error) {
                 (_a = client.users.cache.get(i._id)) === null || _a === void 0 ? void 0 : _a.send(`<@${i._id.replace("money", "")}>, you can work again`);
+                await db_1.deleteReminder(i);
             }
-        await db_1.deleteReminder(i);
+        }
     }
 }
 exports.workreminderloop = workreminderloop;
@@ -37,14 +39,15 @@ async function foodreminderloop(client) {
     var _a;
     let r = await db_1.getReminders({ type: "food" });
     for (let i of r) {
-        if (Math.floor(Date.now() / 1000) - i.time > 3600)
+        if (Math.floor(Date.now() / 1000) - i.time > 3600) {
             try {
                 (await client.channels.fetch(i.channel)).send(`<@${i._id.replace("food", "")}>, you can beg again`);
             }
             catch (error) {
                 (_a = client.users.cache.get(i._id)) === null || _a === void 0 ? void 0 : _a.send(`<@${i._id.replace("food", "")}>, you can beg again`);
             }
-        await db_1.deleteReminder(i);
+            await db_1.deleteReminder(i);
+        }
     }
 }
 exports.foodreminderloop = foodreminderloop;
