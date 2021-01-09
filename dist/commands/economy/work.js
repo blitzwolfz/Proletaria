@@ -51,7 +51,7 @@ exports.beg = {
                 type: "food",
                 time: Math.floor(Date.now() / 1000),
                 channel: message.channel.id
-            });
+            }).then(() => console.log("inserted"));
             return message.reply(`Congrats on begging successfully, you earned ${f} food. You can beg again in a hour`);
         }
         else {
