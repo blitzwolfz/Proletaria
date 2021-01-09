@@ -167,7 +167,7 @@ export const rename: Command = {
                         key = 'navyname';
                         break;
                     default:
-                      return message.reply("Please specifiy what you want to rename: pop, money, army, navy")
+                      return message.reply(`please specifiy which of these you want to rename: pop, money, army, navy.\n Example \`${await (await getServer(message.guild!.id)).prefix}rename user army Freedom Fighters\``)
                 }
 
 
