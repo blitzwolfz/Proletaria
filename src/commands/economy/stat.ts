@@ -127,7 +127,7 @@ export const earnings: Command = {
 
                 { name: 'Gross Energy', value: `${eE}`, inline:true },
                 { name: 'Gross Energy Consumption', value: `${eC}`, inline:true },
-                { name: 'Net Energy', value: `${parseInt(mE)-eC}`, inline:true },
+                { name: 'Net Energy', value: `${parseInt(eE)-eC}`, inline:true },
             )
             .setFooter("blitzwolfz#9338", "https://cdn.discordapp.com/avatars/239516219445608449/12fa541557ca2635a34a5af5e8c65d26.webp?size=512")
 
