@@ -1,11 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.modadd = void 0;
+exports.payoutUser = exports.modadd = void 0;
 const db_1 = require("../../../util/db");
+const loops_1 = require("../../util/loops");
 require('dotenv').config();
 exports.modadd = {
     name: "mod-add",
-    description: "You can buy items from store",
+    description: "Allows mod to give you an item",
     group: "economy",
     owner: true,
     async execute(message, client, args, ownerID) {
@@ -72,5 +73,22 @@ exports.modadd = {
             await db_1.updateUser(u);
             return message.reply(`Added ${args[len - 1]} ${args.slice(0, len - 1).join('')} to user.`);
         }
+    }
+};
+exports.payoutUser = {
+    name: "payoutuser",
+    description: "Allows mod to give a user a payout",
+    group: "economy",
+    owner: true,
+    async execute(message, client, args, ownerID) {
+        var _a, _b;
+        if (message.author.id !== ownerID && !((_a = process.env.mods) === null || _a === void 0 ? void 0 : _a.split(",").includes(message.author.id))) {
+            return await message.reply("You are not allowed to use this command. If you feel that this is in error, contact owner.");
+        }
+        let id = ((_b = message.mentions.users.first()) === null || _b === void 0 ? void 0 : _b.id) || args[0];
+        let u = await db_1.getUser(id);
+        if (!u)
+            return message.reply("This user does not exist? Please try again");
+        await loops_1.payout(u);
     }
 };

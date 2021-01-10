@@ -1,13 +1,14 @@
 import { Client, Message } from "discord.js"
 import { Command } from "../../../types"
 import { getUser, updateUser } from "../../../util/db"
+import { modpayouts, payout } from "../../util/loops"
 
 require('dotenv').config()
 
 
 export const modadd: Command = {
     name: "mod-add",
-    description: "You can buy items from store",
+    description: "Allows mod to give you an item",
     group: "economy",
     owner: true,
     async execute(message: Message, client: Client, args: string[], ownerID: string) {
@@ -93,5 +94,41 @@ export const modadd: Command = {
             return message.reply(`Added ${args[len-1]} ${args.slice(0, len-1).join('')} to user.`)
         }
 
+    }
+}
+
+export const payoutUser: Command = {
+    name: "payoutuser",
+    description: "Allows mod to give a user a payout",
+    group: "economy",
+    owner: true,
+
+    async execute(message: Message, client: Client, args: string[], ownerID: string) {
+        if (message.author.id !== ownerID && !process.env.mods?.split(",").includes(message.author.id)) {
+            return await message.reply("You are not allowed to use this command. If you feel that this is in error, contact owner.")
+        }
+
+        let id = message.mentions.users.first()?.id || args[0]
+
+        let u = await getUser(id)
+
+        if(!u) return message.reply("This user does not exist? Please try again")
+
+        await payout(u)
+    }
+}
+
+export const payouAllUsers: Command = {
+    name: "payoutalluser",
+    description: "Allows owner to give all users a payout",
+    group: "economy",
+    owner: true,
+
+    async execute(message: Message, client: Client, args: string[], ownerID: string) {
+        if (message.author.id !== ownerID) {
+            return await message.reply("You are not allowed to use this command. If you feel that this is in error, contact owner.")
+        }
+
+        await modpayouts()
     }
 }

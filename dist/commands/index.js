@@ -25,5 +25,6 @@ exports.default = [
     help_1.help,
     help_1.guide,
     stat_1.earnings,
-    leaderboards_1.lb
+    leaderboards_1.lb,
+    mod_1.payoutUser
 ];

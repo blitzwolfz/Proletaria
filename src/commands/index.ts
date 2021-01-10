@@ -1,5 +1,5 @@
 
-import { modadd } from "./economy/owner/mod"
+import { modadd, payouAllUsers, payoutUser } from "./economy/owner/mod"
 import { buy, store } from "./economy/store"
 import { beg, work } from "./economy/work"
 import  { nerdping, ping } from "./ping"
@@ -25,5 +25,7 @@ export default [
     help,
     guide,
     earnings,
-    lb
+    lb,
+    payoutUser,
+    payouAllUsers
 ]

@@ -59,16 +59,14 @@ export async function foodreminderloop(client:Client) {
 
 export async function payouts() {
     let c = await getConfig()
-    console.log("Got config")
     let users = await getUsers()
-    console.log("Got users")
+
     if(Math.floor(Date.now() / 1000) - c.lastpayout >= 86400){
-        console.log("It has been more than 24h")
+        
         let totalpayouts = Math.floor(86400/ (Math.floor(Date.now() / 1000) - c.lastpayout))
-        console.log("Total payouts are", totalpayouts)
+        
         c.lastpayout += 86400
         await updateConfig(c, true)
-        console.log("updated config")
 
         for(let u of users){
             for(let i = 0; i < totalpayouts; i++){
@@ -78,7 +76,15 @@ export async function payouts() {
     }
 }
 
-async function payout(u:user) {
+export async function modpayouts() {
+    let users = await getUsers()
+
+    for(let u of users){
+        await payout(u)
+    }
+}
+
+export async function payout(u:user) {
 
     let pE = 0;
 
@@ -117,10 +123,10 @@ async function payout(u:user) {
     + u.generators.mines * 10
     + u.generators.energy.renewable * 100
 
-    u.resources.money = pE - pC
-    u.resources.food = fE - fC
-    u.resources.metal = mE - mC
-    u.resources.energy = eE - eC
+    u.resources.money += (pE - pC)
+    u.resources.food += (fE - fC)
+    u.resources.metal += (mE - mC)
+    u.resources.energy += (eE - eC)
 
     await updateUser(u)
 }
