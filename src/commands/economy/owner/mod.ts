@@ -120,7 +120,7 @@ export const payoutUser: Command = {
 
 export const payouAllUsers: Command = {
     name: "payoutalluser",
-    description: "Allows owner to give all users a payout",
+    description: "Gives a payout to all users. Can only be used by mods",
     group: "economy",
     owner: true,
 

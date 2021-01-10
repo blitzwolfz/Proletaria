@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.payoutUser = exports.modadd = void 0;
+exports.payouAllUsers = exports.payoutUser = exports.modadd = void 0;
 const db_1 = require("../../../util/db");
 const loops_1 = require("../../util/loops");
 require('dotenv').config();
@@ -90,5 +90,17 @@ exports.payoutUser = {
         if (!u)
             return message.reply("This user does not exist? Please try again");
         await loops_1.payout(u);
+    }
+};
+exports.payouAllUsers = {
+    name: "payoutalluser",
+    description: "Gives a payout to all users. Can only be used by mods",
+    group: "economy",
+    owner: true,
+    async execute(message, client, args, ownerID) {
+        if (message.author.id !== ownerID) {
+            return await message.reply("You are not allowed to use this command. If you feel that this is in error, contact owner.");
+        }
+        await loops_1.modpayouts();
     }
 };

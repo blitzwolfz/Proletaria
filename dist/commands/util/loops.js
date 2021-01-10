@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.payout = exports.payouts = exports.foodreminderloop = exports.workreminderloop = exports.megaloop = void 0;
+exports.payout = exports.modpayouts = exports.payouts = exports.foodreminderloop = exports.workreminderloop = exports.megaloop = void 0;
 const db_1 = require("../../util/db");
 const util_1 = require("../../util/util");
 async function megaloop(client) {
@@ -66,6 +66,13 @@ async function payouts() {
     }
 }
 exports.payouts = payouts;
+async function modpayouts() {
+    let users = await db_1.getUsers();
+    for (let u of users) {
+        await payout(u);
+    }
+}
+exports.modpayouts = modpayouts;
 async function payout(u) {
     let pE = 0;
     for (let x = 0; x < (u.resources.people.human + u.resources.people.clone); x++) {
