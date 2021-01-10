@@ -54,7 +54,7 @@ exports.foodreminderloop = foodreminderloop;
 async function payouts() {
     let c = await db_1.getConfig();
     let users = await db_1.getUsers();
-    if (Math.floor(Date.now() / 1000) - c.lastpayout > 86400) {
+    if (Math.floor(Date.now() / 1000) - c.lastpayout >= 86400) {
         let totalpayouts = Math.floor(86400 / (Math.floor(Date.now() / 1000) - c.lastpayout));
         c.lastpayout += 86400;
         await db_1.updateConfig(c, true);

@@ -60,7 +60,7 @@ export async function foodreminderloop(client:Client) {
 export async function payouts() {
     let c = await getConfig()
     let users = await getUsers()
-    if(Math.floor(Date.now() / 1000) - c.lastpayout > 86400){
+    if(Math.floor(Date.now() / 1000) - c.lastpayout >= 86400){
         let totalpayouts = Math.floor(86400/ (Math.floor(Date.now() / 1000) - c.lastpayout))
         
         c.lastpayout += 86400

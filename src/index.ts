@@ -54,7 +54,29 @@ client.once("ready", async () => {
     // console.log("A Kiss every 5 seconds");
     //console.time("Big loop goes brrr in")
     await megaloop(client)
-    await payouts()
+
+    try {
+      await payouts()
+    } catch (error) {
+
+      var currentdate = new Date();
+      var datetime = "Last Sync: " + currentdate.getDate() + "/"
+        + (currentdate.getMonth() + 1) + "/"
+        + currentdate.getFullYear() + " @ "
+        + currentdate.getHours() + ":"
+        + currentdate.getMinutes() + ":"
+        + currentdate.getSeconds();
+
+      (<Discord.TextChannel>await client.channels.fetch("797852521292890142")).send(new Discord.MessageEmbed()
+        .setColor("RED")
+        .setTitle("ERROR")
+        .addFields(
+          { name: 'Payouts Error', value: `${datetime}`, inline: true },
+        )
+        .setDescription(`\`\`\`${error.message}\`\`\``)
+        .setFooter("blitzwolfz#9338", "https://cdn.discordapp.com/avatars/239516219445608449/12fa541557ca2635a34a5af5e8c65d26.webp?size=512")
+      )
+    }
     //console.timeEnd("Big loop goes brrr in")
   }, 1000);
 
@@ -136,7 +158,7 @@ client.on("message", async message => {
     }
   } else return;
 
-  if(message.channel.type !== "text") return;
+  if (message.channel.type !== "text") return;
 
   const commandName: string | undefined = args?.shift()?.toLowerCase();
 
@@ -145,7 +167,7 @@ client.on("message", async message => {
   const command = commands.find(c => c.name.toLowerCase() === commandName)
 
   if (commandName === "test") {
-    if(message.author.id !== process.env.owner && !process.env.mods?.split(",").includes(message.author.id)){
+    if (message.author.id !== process.env.owner && !process.env.mods?.split(",").includes(message.author.id)) {
       return await message.reply("nah b")
     }
   }
@@ -153,42 +175,42 @@ client.on("message", async message => {
   else if (command) {
     if (command.owner) {
       try {
-        if(message.author.id !== process.env.owner && !process.env.mods?.split(",").includes(message.author.id)) return message.reply("Can't use this command.")
+        if (message.author.id !== process.env.owner && !process.env.mods?.split(",").includes(message.author.id)) return message.reply("Can't use this command.")
         await command.execute(message, client, args, process.env.owner)
       } catch (error) {
         await message.channel.send(new Discord.MessageEmbed()
-        .setColor("RED")
-        .setTitle("ERROR")
-        .addFields(
-          { name: 'Channel Name', value: `${(<Discord.TextChannel>await client.channels.fetch(message.channel.id)).name}`, inline:true },
-          { name: 'Channel Id', value: `${message.channel.id}`, inline:true },
-          { name: 'Guild Id', value: `${message.guild?.id}`, inline:true },
-          { name: 'Guild Name', value: `${message.guild?.name}`, inline:true },
-          { name: 'User', value: `${message.author.tag}`, inline:true },
-          { name: 'User Id', value: `${message.author.id}`, inline:true },
+          .setColor("RED")
+          .setTitle("ERROR")
+          .addFields(
+            { name: 'Channel Name', value: `${(<Discord.TextChannel>await client.channels.fetch(message.channel.id)).name}`, inline: true },
+            { name: 'Channel Id', value: `${message.channel.id}`, inline: true },
+            { name: 'Guild Id', value: `${message.guild?.id}`, inline: true },
+            { name: 'Guild Name', value: `${message.guild?.name}`, inline: true },
+            { name: 'User', value: `${message.author.tag}`, inline: true },
+            { name: 'User Id', value: `${message.author.id}`, inline: true },
+          )
+          .setDescription(`\`\`\`${error.message}\`\`\``)
+          .setFooter("blitzwolfz#9338", "https://cdn.discordapp.com/avatars/239516219445608449/12fa541557ca2635a34a5af5e8c65d26.webp?size=512")
         )
-        .setDescription(`\`\`\`${error.message}\`\`\``)
-        .setFooter("blitzwolfz#9338", "https://cdn.discordapp.com/avatars/239516219445608449/12fa541557ca2635a34a5af5e8c65d26.webp?size=512")
-      )
       }
     }
 
     else {
       try {
         await command.execute(message, client, args)
-        
+
       } catch (error) {
         await message.channel.send(new Discord.MessageEmbed()
           .setFooter("blitzwolfz#9338", "https://cdn.discordapp.com/avatars/239516219445608449/12fa541557ca2635a34a5af5e8c65d26.webp?size=512")
           .setColor("RED")
           .setTitle("ERROR")
           .addFields(
-            { name: 'Channel Name', value: `${(<Discord.TextChannel>await client.channels.fetch(message.channel.id)).name}`, inline:true },
-            { name: 'Channel Id', value: `${message.channel.id}`, inline:true },
-            { name: 'Guild Id', value: `${message.guild?.id}`, inline:true },
-            { name: 'Guild Name', value: `${message.guild?.name}`, inline:true },
-            { name: 'User', value: `${message.author.tag}`, inline:true },
-            { name: 'User Id', value: `${message.author.id}`, inline:true },
+            { name: 'Channel Name', value: `${(<Discord.TextChannel>await client.channels.fetch(message.channel.id)).name}`, inline: true },
+            { name: 'Channel Id', value: `${message.channel.id}`, inline: true },
+            { name: 'Guild Id', value: `${message.guild?.id}`, inline: true },
+            { name: 'Guild Name', value: `${message.guild?.name}`, inline: true },
+            { name: 'User', value: `${message.author.tag}`, inline: true },
+            { name: 'User Id', value: `${message.author.id}`, inline: true },
           )
           .setDescription(`\`\`\`${error.message}\`\`\``)
         )
@@ -197,5 +219,5 @@ client.on("message", async message => {
   }
 })
 
-if(process.env.dev) client.login(process.env.TOKEN!)
+if (process.env.dev) client.login(process.env.TOKEN!)
 else client.login(process.env.token2!)

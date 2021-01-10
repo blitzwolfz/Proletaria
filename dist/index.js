@@ -51,7 +51,24 @@ exports.client.once("ready", async () => {
     });
     setInterval(async function () {
         await loops_1.megaloop(exports.client);
-        await loops_1.payouts();
+        try {
+            await loops_1.payouts();
+        }
+        catch (error) {
+            var currentdate = new Date();
+            var datetime = "Last Sync: " + currentdate.getDate() + "/"
+                + (currentdate.getMonth() + 1) + "/"
+                + currentdate.getFullYear() + " @ "
+                + currentdate.getHours() + ":"
+                + currentdate.getMinutes() + ":"
+                + currentdate.getSeconds();
+            (await exports.client.channels.fetch("797852521292890142")).send(new Discord.MessageEmbed()
+                .setColor("RED")
+                .setTitle("ERROR")
+                .addFields({ name: 'Payouts Error', value: `${datetime}`, inline: true })
+                .setDescription(`\`\`\`${error.message}\`\`\``)
+                .setFooter("blitzwolfz#9338", "https://cdn.discordapp.com/avatars/239516219445608449/12fa541557ca2635a34a5af5e8c65d26.webp?size=512"));
+        }
     }, 1000);
     try {
         db_1.getServers().then(server => {
