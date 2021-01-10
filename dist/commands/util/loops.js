@@ -53,11 +53,16 @@ async function foodreminderloop(client) {
 exports.foodreminderloop = foodreminderloop;
 async function payouts() {
     let c = await db_1.getConfig();
+    console.log("Got config");
     let users = await db_1.getUsers();
+    console.log("Got users");
     if (Math.floor(Date.now() / 1000) - c.lastpayout >= 86400) {
+        console.log("It has been more than 24h");
         let totalpayouts = Math.floor(86400 / (Math.floor(Date.now() / 1000) - c.lastpayout));
+        console.log("Total payouts are", totalpayouts);
         c.lastpayout += 86400;
         await db_1.updateConfig(c, true);
+        console.log("updated config");
         for (let u of users) {
             for (let i = 0; i < totalpayouts; i++) {
                 await payout(u);
