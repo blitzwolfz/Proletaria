@@ -73,7 +73,7 @@ export const store: Command = {
                     //{ name: `Cloning Vat:`, value:`Costs 10k/1000 people. A Private Corporation will grow you loyal slaves. Each person costs 10 currency, 1 food.`, inline:true },
 
                     { name: '\u200b', value: '\u200b' },
-                    { name: `Renewables`, value: `Costs 1k currency, 2k metal. Will provide you with 100 Energy per day. To maintain, you need 100 currency, 100 energy`, inline: true },
+                    { name: `Renewables`, value: `Costs 1k currency, 2k metal. Will provide you with 350 Energy per day. To maintain, you need 100 currency, 100 energy`, inline: true },
                     { name: `Hot Fusion Reactor`, value: `Costs 10k currency, 9k metal, 2k energy. Will provide you with 1k Energy per day. To maintain, you need 4k currency, 3k metal`, inline: true },
                     { name: `Cold Fusion Reactor`, value: `Costs 500k currency, 250k metal, 750k energy. Will provide you with 200k Energy per day. To maintain, you need 50k currency, 20k metal`, inline: true },
                     //{ name: `Star Generator`, value:`Costs 1 Billion currency, 2k metal. Will provide you with 100 Energy per day. To maintain, you need 100 currency, 100 energy`, inline:true },

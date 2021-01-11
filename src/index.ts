@@ -16,6 +16,7 @@ export const client = new Discord.Client
 export let prefix: string = process.env.prefix!
 import * as c from "./commands/index"
 import { megaloop, payouts } from "./commands/util/loops"
+
 //console.log(c.default)
 //@ts-ignore
 var commands: Command[] = c.default
