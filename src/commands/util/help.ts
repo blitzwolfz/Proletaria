@@ -99,6 +99,18 @@ export const guide: Command = {
                                                 "enough resources to sustain them. You can check these stats " +
                                                 `using the \`${prefix}earnings\` command`,
             inline:false
+            },
+
+            {name: "Debt", value: "Your citizens are strong and resilient. " +
+            "Running a nation can be hard, as such going into debt may be nnecessary."+
+            `\`${prefix}stats\` command shows you how much debt per resource `+
+            "your people can handle. If any of your resource debts go over " +
+            `that limit you have the option of taking a loan from one of the many `+
+            "Central Banks available. Each bank has their own interest rate, and how "+
+            "they might lend you out. If you fail to recover from this debt and don't "+
+            "take a loan, then your nation will colpase and you must restart again."
+            ,
+            inline:false
             }
         )
         .setFooter("blitzwolfz#9338", "https://cdn.discordapp.com/avatars/239516219445608449/12fa541557ca2635a34a5af5e8c65d26.webp?size=512")

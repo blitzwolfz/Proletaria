@@ -9,6 +9,7 @@ const create_1 = require("./util/create");
 const stat_1 = require("./economy/stat");
 const help_1 = require("./util/help");
 const leaderboards_1 = require("./leaderboards");
+const loans_1 = require("./economy/banks/loans");
 exports.default = [
     create_1.createuser,
     create_1.userdelete,
@@ -29,5 +30,8 @@ exports.default = [
     stat_1.earnings,
     leaderboards_1.lb,
     mod_1.payoutUser,
-    mod_1.payouAllUsers
+    mod_1.payouAllUsers,
+    loans_1.applyloans,
+    loans_1.loanTerms,
+    loans_1.marketoffer
 ];

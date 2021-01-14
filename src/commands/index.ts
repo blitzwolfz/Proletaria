@@ -8,6 +8,7 @@ import  { createuser, rename, userdelete } from "./util/create"
 import  { earnings, userstats } from "./economy/stat"
 import { guide, help } from "./util/help"
 import { lb } from "./leaderboards"
+import { applyloans, loanTerms, marketoffer } from "./economy/banks/loans"
 
 export default [
     createuser,
@@ -29,5 +30,8 @@ export default [
     earnings,
     lb,
     payoutUser,
-    payouAllUsers
+    payouAllUsers,
+    applyloans,
+    loanTerms,
+    marketoffer
 ]
