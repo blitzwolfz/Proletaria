@@ -70,7 +70,8 @@ export const earnings: Command = {
     owner:false,
     async execute(message: Message, client:Client, args: string[]){
         
-        let u = await getUser(message.author.id)        
+        let u = await getUser(message.mentions?.users?.first()?.id || args[0] || message.author.id)
+        let id = (message.mentions?.users?.first() || await client.users.cache.get(args[0]) || message.author);     
         if(!u){
             return message.reply("Please make a user account using the create command")
         }
@@ -108,10 +109,10 @@ export const earnings: Command = {
 
         return message.channel.send(
             new MessageEmbed()
-            .setAuthor(`${message.author.tag}`)
+            .setAuthor(`${id.tag}`)
             .setColor('#BC0057')
             .setDescription(`**Next Payout:** ${await toHHMMSS((await (await getConfig()).lastpayout), 86400)}`)
-            .setThumbnail(`${message.author.displayAvatarURL()}`)
+            .setThumbnail(`${id.displayAvatarURL()}`)
             .addFields(
                 { name: 'Gross Taxes', value: `${pE} ${u.resources.currencyname}`, inline:true },
                 { name: 'Gross Money Consumption', value: `${pC}`, inline:true },

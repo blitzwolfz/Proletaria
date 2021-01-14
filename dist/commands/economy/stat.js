@@ -30,7 +30,9 @@ exports.earnings = {
     group: "stats",
     owner: false,
     async execute(message, client, args) {
-        let u = await db_1.getUser(message.author.id);
+        var _a, _b, _c, _d, _e;
+        let u = await db_1.getUser(((_c = (_b = (_a = message.mentions) === null || _a === void 0 ? void 0 : _a.users) === null || _b === void 0 ? void 0 : _b.first()) === null || _c === void 0 ? void 0 : _c.id) || args[0] || message.author.id);
+        let id = (((_e = (_d = message.mentions) === null || _d === void 0 ? void 0 : _d.users) === null || _e === void 0 ? void 0 : _e.first()) || await client.users.cache.get(args[0]) || message.author);
         if (!u) {
             return message.reply("Please make a user account using the create command");
         }
@@ -61,10 +63,10 @@ exports.earnings = {
             + u.generators.mines * 10
             + u.generators.energy.renewable * 100;
         return message.channel.send(new discord_js_1.MessageEmbed()
-            .setAuthor(`${message.author.tag}`)
+            .setAuthor(`${id.tag}`)
             .setColor('#BC0057')
             .setDescription(`**Next Payout:** ${await util_1.toHHMMSS((await (await db_1.getConfig()).lastpayout), 86400)}`)
-            .setThumbnail(`${message.author.displayAvatarURL()}`)
+            .setThumbnail(`${id.displayAvatarURL()}`)
             .addFields({ name: 'Gross Taxes', value: `${pE} ${u.resources.currencyname}`, inline: true }, { name: 'Gross Money Consumption', value: `${pC}`, inline: true }, { name: 'Net Money', value: `${parseInt(pE.split(" - ")[0]) - pC} to ${parseInt(pE.split(" - ")[1]) - pC}`, inline: true }, { name: 'Gross Food', value: `${fE}`, inline: true }, { name: 'Gross Food Consumption', value: `${fC}`, inline: true }, { name: 'Net Food', value: `${parseInt(fE) - fC}`, inline: true }, { name: 'Gross Metal', value: `${mE}`, inline: true }, { name: 'Gross Metal Consumption', value: `${mC}`, inline: true }, { name: 'Net Metal', value: `${parseInt(mE) - mC}`, inline: true }, { name: 'Gross Energy', value: `${eE}`, inline: true }, { name: 'Gross Energy Consumption', value: `${eC}`, inline: true }, { name: 'Net Energy', value: `${parseInt(eE) - eC}`, inline: true })
             .setFooter("blitzwolfz#9338", "https://cdn.discordapp.com/avatars/239516219445608449/12fa541557ca2635a34a5af5e8c65d26.webp?size=512"));
     }
