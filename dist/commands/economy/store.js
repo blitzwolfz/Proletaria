@@ -26,7 +26,7 @@ exports.store = {
             const militaryStore = new discord_js_1.MessageEmbed()
                 .setTitle("Population Store")
                 .setDescription(`Currently available items Use ??item \`Item name\` buy to buy, and view to view `)
-                .addFields({ name: `Your balance:`, value: `${(_c = (await db_1.getUser(message.author.id))) === null || _c === void 0 ? void 0 : _c.resources.money} ${(_d = (await db_1.getUser(message.author.id))) === null || _d === void 0 ? void 0 : _d.resources.currencyname}`, inline: false }, { name: '\u200b', value: '\u200b' }, { name: `Immigration:`, value: `Costs 500/person. Open your broders to make loyal citizens for the motherland. Each person costs 10 currency, 1 food to maintain.`, inline: true }, { name: `Cloning Vat:`, value: `Costs 10k/1000 people. A Private Corporation will grow you loyal citizens. Each person costs 10 currency, 1 food to maintain.`, inline: true }, { name: '\u200b', value: '\u200b' }, { name: `Farm:`, value: `Costs 1k currency, 500 metal. Each farm will provide you 1000 food daily. To maintain, you need 100 currency, 100 energy`, inline: true }, { name: `Private Corpo Farm:`, value: `Costs 100k. A Private Corporation will give you daily 10k food. To maintain, you need 1k currency`, inline: true })
+                .addFields({ name: `Your balance:`, value: `${(_c = (await db_1.getUser(message.author.id))) === null || _c === void 0 ? void 0 : _c.resources.money} ${(_d = (await db_1.getUser(message.author.id))) === null || _d === void 0 ? void 0 : _d.resources.currencyname}`, inline: false }, { name: '\u200b', value: '\u200b' }, { name: `Immigration:`, value: `Costs 500/person. Open your broders to make loyal citizens for the motherland. Each person can become soldier. Each person costs 10 currency, 1 food to maintain.`, inline: true }, { name: `Cloning Vat:`, value: `Costs 5k/1000 people. A Private Corporation will grow you loyal citizens. Clones can't become soldiers. Each person costs 10 currency, 1 food to maintain.`, inline: true }, { name: '\u200b', value: '\u200b' }, { name: `Farm:`, value: `Costs 1k currency, 500 metal. Each farm will provide you 1000 food daily. To maintain, you need 100 currency, 100 energy`, inline: true }, { name: `Private Corpo Farm:`, value: `Costs 100k. A Private Corporation will give you daily 10k food. To maintain, you need 1k currency`, inline: true })
                 .setColor("RED")
                 .setFooter("blitzwolfz#9338", "https://cdn.discordapp.com/avatars/239516219445608449/12fa541557ca2635a34a5af5e8c65d26.webp?size=512");
             await message.channel.send(militaryStore);
@@ -82,7 +82,7 @@ exports.buy = {
                 if (!args[1])
                     return message.reply("Please state how many you wish to buy");
                 u.resources.people.clone += (1000 * parseInt(args[1]));
-                u.resources.money -= (500 * parseInt(args[1]));
+                u.resources.money -= (5000 * parseInt(args[1]));
                 break;
             case "mines":
                 if (u.resources.money < (100 * parseInt(args[1]))) {
