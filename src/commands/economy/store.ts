@@ -46,8 +46,8 @@ export const store: Command = {
                     { name: `Your balance:`, value: `${(await getUser(message.author.id))?.resources.money} ${(await getUser(message.author.id))?.resources.currencyname}`, inline: false },
 
                     { name: '\u200b', value: '\u200b' },
-                    { name: `Immigration:`, value: `Costs 500/person. Open your broders to make loyal citizens for the motherland. Each person costs 10 currency, 1 food to maintain.`, inline: true },
-                    { name: `Cloning Vat:`, value: `Costs 10k/1000 people. A Private Corporation will grow you loyal citizens. Each person costs 10 currency, 1 food to maintain.`, inline: true },
+                    { name: `Immigration:`, value: `Costs 500/person. Open your broders to make loyal citizens for the motherland. Each person can become soldier. Each person costs 10 currency, 1 food to maintain.`, inline: true },
+                    { name: `Cloning Vat:`, value: `Costs 5k/1000 people. A Private Corporation will grow you loyal citizens. Clones can't become soldiers. Each person costs 10 currency, 1 food to maintain.`, inline: true },
 
                     { name: '\u200b', value: '\u200b' },
                     { name: `Farm:`, value: `Costs 1k currency, 500 metal. Each farm will provide you 1000 food daily. To maintain, you need 100 currency, 100 energy`, inline: true },
@@ -130,7 +130,7 @@ export const buy: Command = {
                 }
                 if(!args[1]) return message.reply("Please state how many you wish to buy")
                 u.resources.people.clone += (1000*parseInt(args[1]))
-                u.resources.money -= (500 * parseInt(args[1]))
+                u.resources.money -= (5000 * parseInt(args[1]))
                 break;
             case "mines":
                 if(u.resources.money < (100 * parseInt(args[1]))){
