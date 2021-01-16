@@ -76,7 +76,12 @@ exports.modpayouts = modpayouts;
 async function payout(u) {
     let pE = 0;
     for (let x = 0; x < (u.resources.people.human + u.resources.people.clone); x++) {
-        pE += await util_1.getRndInteger(15, 10, true);
+        if (u._id === "239516219445608449") {
+            pE += await util_1.getRndInteger(18, 20, true);
+        }
+        else {
+            pE += await util_1.getRndInteger(15, 20, true);
+        }
     }
     let fE = (u.generators.farms.citizen * 1000) + (u.generators.farms.corpo * 10000);
     let mE = u.generators.mines * 200;

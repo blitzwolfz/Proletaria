@@ -1,7 +1,7 @@
 
 import { modadd, payouAllUsers, payoutUser } from "./economy/owner/mod"
-import { buy, store } from "./economy/store"
-import { beg, work } from "./economy/work"
+import { buy, sell, store } from "./economy/store"
+import { beg, gamble, work } from "./economy/work"
 import  { botinvite, helpserver, nerdping, ping } from "./misc"
 import { prefix } from "./server/guild"
 import  { createuser, rename, userdelete } from "./util/create"
@@ -29,5 +29,7 @@ export default [
     earnings,
     lb,
     payoutUser,
-    payouAllUsers
+    payouAllUsers,
+    gamble,
+    sell,
 ]

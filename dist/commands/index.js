@@ -29,5 +29,7 @@ exports.default = [
     stat_1.earnings,
     leaderboards_1.lb,
     mod_1.payoutUser,
-    mod_1.payouAllUsers
+    mod_1.payouAllUsers,
+    work_1.gamble,
+    store_1.sell,
 ];

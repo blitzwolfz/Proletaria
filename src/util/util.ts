@@ -7,4 +7,14 @@ export async function getRndInteger(min:number, max:number, maxInclude = false) 
     if(maxInclude) return Math.floor(Math.random() * (max+1 - min) ) + min;
 
     return Math.floor(Math.random() * (max - min) ) + min;
-  }
+}
+
+export async function NumCommafy(str:number): Promise<String> {
+    return stringCommafy(String(str));
+}
+
+export async function stringCommafy(str:string): Promise<String> {
+    return str.replace(/(^|[^\w.])(\d{4,})/g, function (_$0, $1, $2) {
+        return $1 + $2.replace(/\d(?=(?:\d\d\d)+(?!\d))/g, "$&,");
+    });
+}

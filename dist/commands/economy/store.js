@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.buy = exports.store = void 0;
+exports.sell = exports.buy = exports.store = void 0;
 const discord_js_1 = require("discord.js");
 const db_1 = require("../../util/db");
 exports.store = {
@@ -64,7 +64,7 @@ exports.buy = {
                 if (!args[1])
                     return message.reply("Please state how many you wish to buy");
                 u.resources.food += (500 * parseInt(args[1]));
-                u.resources.money -= (500 * parseInt(args[1]));
+                u.resources.money += (500 * parseInt(args[1]));
                 break;
             case "immigration":
                 if (u.resources.money < (500 * parseInt(args[1]))) {
@@ -73,7 +73,7 @@ exports.buy = {
                 if (!args[1])
                     return message.reply("Please state how many you wish to buy");
                 u.resources.people.human += parseInt(args[1]);
-                u.resources.money -= (500 * parseInt(args[1]));
+                u.resources.money += (500 * parseInt(args[1]));
                 break;
             case "clone":
                 if (u.resources.money < (1000 * parseInt(args[1]))) {
@@ -82,7 +82,7 @@ exports.buy = {
                 if (!args[1])
                     return message.reply("Please state how many you wish to buy");
                 u.resources.people.clone += (1000 * parseInt(args[1]));
-                u.resources.money -= (5000 * parseInt(args[1]));
+                u.resources.money += (5000 * parseInt(args[1]));
                 break;
             case "mines":
                 if (u.resources.money < (100 * parseInt(args[1]))) {
@@ -91,7 +91,7 @@ exports.buy = {
                 if (!args[1])
                     return message.reply("Please state how many you wish to buy");
                 u.generators.mines += parseInt(args[1]);
-                u.resources.money -= (100 * parseInt(args[1]));
+                u.resources.money += (100 * parseInt(args[1]));
                 break;
             case "renewable":
                 if (u.resources.money < (1000 * parseInt(args[1]))) {
@@ -100,7 +100,7 @@ exports.buy = {
                 if (!args[1])
                     return message.reply("Please state how many you wish to buy");
                 u.generators.energy.renewable += parseInt(args[1]);
-                u.resources.money -= (1000 * parseInt(args[1]));
+                u.resources.money += (1000 * parseInt(args[1]));
                 break;
             case "hotfusion":
                 if (u.resources.money < (10000 * parseInt(args[1]))) {
@@ -109,7 +109,7 @@ exports.buy = {
                 if (!args[1])
                     return message.reply("Please state how many you wish to buy");
                 u.generators.energy.hotfusion += parseInt(args[1]);
-                u.resources.money -= (10000 * parseInt(args[1]));
+                u.resources.money += (10000 * parseInt(args[1]));
                 break;
             case "coldfusion":
                 if (u.resources.money < (500000 * parseInt(args[1]))) {
@@ -118,7 +118,7 @@ exports.buy = {
                 if (!args[1])
                     return message.reply("Please state how many you wish to buy");
                 u.generators.energy.coldfusion += parseInt(args[1]);
-                u.resources.money -= (500000 * parseInt(args[1]));
+                u.resources.money += (500000 * parseInt(args[1]));
                 break;
             case "country":
                 if (args[1] === "ship") {
@@ -128,7 +128,7 @@ exports.buy = {
                     if (!args[2])
                         return message.reply("Please state how many you wish to buy");
                     u.navy.citizen += parseInt(args[2]);
-                    u.resources.money -= (10500 * parseInt(args[2]));
+                    u.resources.money += (10500 * parseInt(args[2]));
                 }
                 else if (args[1] === "soldier") {
                     if (u.resources.money < (1500 * parseInt(args[2]))) {
@@ -137,7 +137,7 @@ exports.buy = {
                     if (!args[2])
                         return message.reply("Please state how many you wish to buy");
                     u.army.citizen += parseInt(args[2]);
-                    u.resources.money -= (1500 * parseInt(args[2]));
+                    u.resources.money += (1500 * parseInt(args[2]));
                 }
                 else if (args[1] === "farm") {
                     if (u.resources.money < (1000 * parseInt(args[2]))) {
@@ -146,7 +146,7 @@ exports.buy = {
                     if (!args[2])
                         return message.reply("Please state how many you wish to buy");
                     u.generators.farms.citizen += parseInt(args[2]);
-                    u.resources.money -= (1000 * parseInt(args[2]));
+                    u.resources.money += (1000 * parseInt(args[2]));
                 }
                 break;
             case "corpo":
@@ -157,7 +157,7 @@ exports.buy = {
                     if (!args[2])
                         return message.reply("Please state how many you wish to buy");
                     u.navy.corpo += parseInt(args[2]);
-                    u.resources.money -= (25500 * parseInt(args[2]));
+                    u.resources.money += (25500 * parseInt(args[2]));
                 }
                 else if (args[1] === "soldier") {
                     if (u.resources.money < (12500 * parseInt(args[2]))) {
@@ -166,7 +166,7 @@ exports.buy = {
                     if (!args[2])
                         return message.reply("Please state how many you wish to buy");
                     u.army.corpo += parseInt(args[2]);
-                    u.resources.money -= (12500 * parseInt(args[2]));
+                    u.resources.money += (12500 * parseInt(args[2]));
                 }
                 else if (args[1] === "farm") {
                     if (u.resources.money < (100000 * parseInt(args[2]))) {
@@ -175,7 +175,7 @@ exports.buy = {
                     if (!args[2])
                         return message.reply("Please state how many you wish to buy");
                     u.generators.farms.corpo += parseInt(args[2]);
-                    u.resources.money -= (100000 * parseInt(args[2]));
+                    u.resources.money += (100000 * parseInt(args[2]));
                 }
                 break;
             default:
@@ -187,5 +187,125 @@ exports.buy = {
             return message.reply(`You successfully bought ${args[1]} ${args[0]}`);
         if (args.length === 3)
             return message.reply(`You successfully bought ${args[2]} ${args[0]} ${args[1]}`);
+    }
+};
+exports.sell = {
+    name: "sell",
+    description: "Sell your items to get 50% price back",
+    group: "economy",
+    owner: false,
+    async execute(message, client, args) {
+        let u = await db_1.getUser(message.author.id);
+        if (!u) {
+            return message.reply("Please make an account");
+        }
+        switch (args[0]) {
+            case `food`:
+                if (u.resources.money < (500 * parseInt(args[1]))) {
+                    return message.reply(`You need ${(500 * parseInt(args[1]))} ${u.resources.currencyname}`);
+                }
+                if (!args[1])
+                    return message.reply("Please state how many you wish to sell");
+                u.resources.food -= (500 * parseInt(args[1]));
+                u.resources.money += Math.floor(.5 * (500 * parseInt(args[1])));
+                break;
+            case "mines":
+                if (u.resources.money < (100 * parseInt(args[1]))) {
+                    return message.reply(`You need ${(100 * parseInt(args[1]))} ${u.resources.currencyname}`);
+                }
+                if (!args[1])
+                    return message.reply("Please state how many you wish to sell");
+                u.generators.mines -= parseInt(args[1]);
+                u.resources.money += Math.floor(.5 * (100 * parseInt(args[1])));
+                break;
+            case "renewable":
+                if (u.resources.money < (1000 * parseInt(args[1]))) {
+                    return message.reply(`You need ${(1000 * parseInt(args[1]))} ${u.resources.currencyname}`);
+                }
+                if (!args[1])
+                    return message.reply("Please state how many you wish to sell");
+                u.generators.energy.renewable -= parseInt(args[1]);
+                u.resources.money += Math.floor(.5 * (1000 * parseInt(args[1])));
+                break;
+            case "hotfusion":
+                if (u.resources.money < (10000 * parseInt(args[1]))) {
+                    return message.reply(`You need ${(10000 * parseInt(args[1]))} ${u.resources.currencyname}`);
+                }
+                if (!args[1])
+                    return message.reply("Please state how many you wish to sell");
+                u.generators.energy.hotfusion -= parseInt(args[1]);
+                u.resources.money += Math.floor(.5 * (10000 * parseInt(args[1])));
+                break;
+            case "coldfusion":
+                if (u.resources.money < (500000 * parseInt(args[1]))) {
+                    return message.reply(`You need ${(500000 * parseInt(args[1]))} ${u.resources.currencyname}`);
+                }
+                if (!args[1])
+                    return message.reply("Please state how many you wish to sell");
+                u.generators.energy.coldfusion -= parseInt(args[1]);
+                u.resources.money += Math.floor(.5 * (500000 * parseInt(args[1])));
+                break;
+            case "country":
+                if (args[1] === "ship") {
+                    if (u.resources.money < (10500 * parseInt(args[2]))) {
+                        return message.reply(`You need ${(10500 * parseInt(args[2]))} ${u.resources.currencyname}`);
+                    }
+                    if (!args[2])
+                        return message.reply("Please state how many you wish to sell");
+                    u.navy.citizen -= parseInt(args[2]);
+                    u.resources.money += Math.floor(.5 * (10500 * parseInt(args[2])));
+                }
+                else if (args[1] === "soldier") {
+                    if (u.resources.money < (1500 * parseInt(args[2]))) {
+                        return message.reply(`You need ${(1500 * parseInt(args[2]))} ${u.resources.currencyname}`);
+                    }
+                    if (!args[2])
+                        return message.reply("Please state how many you wish to sell");
+                    u.army.citizen -= parseInt(args[2]);
+                    u.resources.money += Math.floor(.5 * (1500 * parseInt(args[2])));
+                }
+                else if (args[1] === "farm") {
+                    if (u.resources.money < (1000 * parseInt(args[2]))) {
+                        return message.reply(`You need ${(1000 * parseInt(args[2]))} ${u.resources.currencyname}`);
+                    }
+                    if (!args[2])
+                        return message.reply("Please state how many you wish to sell");
+                    u.generators.farms.citizen -= parseInt(args[2]);
+                    u.resources.money += Math.floor(.5 * (1000 * parseInt(args[2])));
+                }
+                break;
+            case "corpo":
+                if (args[1] === "ship") {
+                    if (u.resources.money < (25500 * parseInt(args[2]))) {
+                        return message.reply(`You need ${(25500 * parseInt(args[2]))} ${u.resources.currencyname}`);
+                    }
+                    if (!args[2])
+                        return message.reply("Please state how many you wish to sell");
+                    u.navy.corpo -= parseInt(args[2]);
+                    u.resources.money += Math.floor(.5 * (25500 * parseInt(args[2])));
+                }
+                else if (args[1] === "soldier") {
+                    if (u.resources.money < (12500 * parseInt(args[2]))) {
+                        return message.reply(`You need ${(12500 * parseInt(args[2]))} ${u.resources.currencyname}`);
+                    }
+                    if (!args[2])
+                        return message.reply("Please state how many you wish to sell");
+                    u.army.corpo -= parseInt(args[2]);
+                    u.resources.money += Math.floor(.5 * (12500 * parseInt(args[2])));
+                }
+                else if (args[1] === "farm") {
+                    if (u.resources.money < (100000 * parseInt(args[2]))) {
+                        return message.reply(`You need ${(100000 * parseInt(args[2]))} ${u.resources.currencyname}`);
+                    }
+                    if (!args[2])
+                        return message.reply("Please state how many you wish to sell");
+                    u.generators.farms.corpo -= parseInt(args[2]);
+                    u.resources.money += Math.floor(.5 * (100000 * parseInt(args[2])));
+                }
+                break;
+            default:
+                return message.reply("You must mention what you want to sell in one of these formats: "
+                    + "\`food, mines, renewable, hotfusion, coldfusion, <corpo | country> < farm | ship>\`");
+        }
     }
 };

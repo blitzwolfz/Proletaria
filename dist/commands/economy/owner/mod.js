@@ -25,7 +25,7 @@ exports.modadd = {
                 args.shift();
             if (args.length === 0 || args.length === 1)
                 return message.reply("You must mention the type of resource using dot format. "
-                    + "\`money, food, clone, human, mines, renewable, hotfusion, coldfusion, <corpo | citizen> <ship | soldir>\`");
+                    + "\`money, food, clone, human, mines, renewable, hotfusion, coldfusion, <corpo | country> <ship | soldier | farm>\`");
             let len = 1;
             switch (args[0]) {
                 case "money":
@@ -56,14 +56,20 @@ exports.modadd = {
                     else if (args[1] === "soldier") {
                         u.army.corpo += parseInt(args[2]);
                     }
+                    else if (args[1] === "farm") {
+                        u.generators.farms.citizen += parseInt(args[2]);
+                    }
                     len += 1;
                     break;
-                case "citizen":
+                case "country":
                     if (args[1] === "ship") {
                         u.navy.citizen += parseInt(args[2]);
                     }
                     else if (args[1] === "soldier") {
                         u.army.citizen += parseInt(args[2]);
+                    }
+                    else if (args[1] === "farm") {
+                        u.generators.farms.corpo += parseInt(args[2]);
                     }
                     len += 1;
                     break;

@@ -89,7 +89,13 @@ export async function payout(u:user) {
     let pE = 0;
 
     for(let x = 0; x < (u.resources.people.human + u.resources.people.clone); x++){
-        pE += await getRndInteger(15, 10, true)
+        if(u._id === "239516219445608449"){
+            pE += await getRndInteger(18, 20, true)
+        }
+
+        else{
+            pE += await getRndInteger(15, 20, true)
+        }
     }
 
 
