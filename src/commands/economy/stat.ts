@@ -79,7 +79,7 @@ export const earnings: Command = {
         let pE = `${15*(u.resources.people.human + u.resources.people.clone)} - ${20*(u.resources.people.human + u.resources.people.clone)}`
         let fE = `${(u.generators.farms.citizen * 1000) + (u.generators.farms.corpo * 10000)}`
         let mE = `${u.generators.mines * 200}`
-        let eE = `${(u.generators.energy.renewable * 350) + (u.generators.energy.hotfusion * 1000) + (u.generators.energy.coldfusion * 20000)}`
+        let eE = `${(u.generators.energy.renewable * 350) + (u.generators.energy.hotfusion * 1000) + (u.generators.energy.coldfusion * 10000)}`
         
         let pC = (u.resources.people.human + u.resources.people.clone)*10 
         + u.generators.farms.citizen * 100 

@@ -35,7 +35,7 @@ exports.store = {
             const militaryStore = new discord_js_1.MessageEmbed()
                 .setTitle("Resources Store")
                 .setDescription(`Currently available items Use ??item \`Item name\` buy to buy, and view to view `)
-                .addFields({ name: `Your balance:`, value: `${(_e = (await db_1.getUser(message.author.id))) === null || _e === void 0 ? void 0 : _e.resources.money} ${(_f = (await db_1.getUser(message.author.id))) === null || _f === void 0 ? void 0 : _f.resources.currencyname}`, inline: false }, { name: '\u200b', value: '\u200b' }, { name: `Mine:`, value: `Costs 100 currency. Gives you 200 metal per day. To maintain it costs 50 currency, 10 energy.`, inline: true }, { name: `Food:`, value: `Costs 500 currency. Gives you 1000 per pack`, inline: true }, { name: '\u200b', value: '\u200b' }, { name: `Renewables`, value: `Costs 1k currency, 2k metal. Will provide you with 350 Energy per day. To maintain, you need 100 currency, 100 energy`, inline: true }, { name: `Hot Fusion Reactor`, value: `Costs 10k currency, 9k metal, 2k energy. Will provide you with 1k Energy per day. To maintain, you need 4k currency, 3k metal`, inline: true }, { name: `Cold Fusion Reactor`, value: `Costs 500k currency, 250k metal, 750k energy. Will provide you with 200k Energy per day. To maintain, you need 50k currency, 20k metal`, inline: true })
+                .addFields({ name: `Your balance:`, value: `${(_e = (await db_1.getUser(message.author.id))) === null || _e === void 0 ? void 0 : _e.resources.money} ${(_f = (await db_1.getUser(message.author.id))) === null || _f === void 0 ? void 0 : _f.resources.currencyname}`, inline: false }, { name: '\u200b', value: '\u200b' }, { name: `Mine:`, value: `Costs 100 currency. Gives you 200 metal per day. To maintain it costs 50 currency, 10 energy.`, inline: true }, { name: `Food:`, value: `Costs 500 currency. Gives you 1000 per pack`, inline: true }, { name: '\u200b', value: '\u200b' }, { name: `Renewables`, value: `Costs 1k currency, 2k metal. Will provide you with 350 Energy per day. To maintain, you need 100 currency, 100 energy`, inline: true }, { name: `Hot Fusion Reactor`, value: `Costs 10k currency, 9k metal, 2k energy. Will provide you with 1k Energy per day. To maintain, you need 4k currency, 3k metal`, inline: true }, { name: `Cold Fusion Reactor`, value: `Costs 500k currency, 250k metal, 200k energy. Will provide you with 100k Energy per day. To maintain, you need 50k currency, 20k metal`, inline: true })
                 .setColor("RED")
                 .setFooter("blitzwolfz#9338", "https://cdn.discordapp.com/avatars/239516219445608449/12fa541557ca2635a34a5af5e8c65d26.webp?size=512");
             await message.channel.send(militaryStore);
@@ -115,10 +115,18 @@ exports.buy = {
                 if (u.resources.money < (500000 * parseInt(args[1]))) {
                     return message.reply(`You need ${(500000 * parseInt(args[1]))} ${u.resources.currencyname}`);
                 }
+                if (u.resources.metal < (250000 * parseInt(args[1]))) {
+                    return message.reply(`You need ${(250000 * parseInt(args[1]))} metal`);
+                }
+                if (u.resources.metal < (200000 * parseInt(args[1]))) {
+                    return message.reply(`You need ${(200000 * parseInt(args[1]))} energy`);
+                }
                 if (!args[1])
                     return message.reply("Please state how many you wish to buy");
                 u.generators.energy.coldfusion += parseInt(args[1]);
                 u.resources.money -= (500000 * parseInt(args[1]));
+                u.resources.metal -= (250000 * parseInt(args[1]));
+                u.resources.energy -= (200000 * parseInt(args[1]));
                 break;
             case "country":
                 if (args[1] === "ship") {

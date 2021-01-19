@@ -75,7 +75,7 @@ export const store: Command = {
                     { name: '\u200b', value: '\u200b' },
                     { name: `Renewables`, value: `Costs 1k currency, 2k metal. Will provide you with 350 Energy per day. To maintain, you need 100 currency, 100 energy`, inline: true },
                     { name: `Hot Fusion Reactor`, value: `Costs 10k currency, 9k metal, 2k energy. Will provide you with 1k Energy per day. To maintain, you need 4k currency, 3k metal`, inline: true },
-                    { name: `Cold Fusion Reactor`, value: `Costs 500k currency, 250k metal, 750k energy. Will provide you with 200k Energy per day. To maintain, you need 50k currency, 20k metal`, inline: true },
+                    { name: `Cold Fusion Reactor`, value: `Costs 500k currency, 250k metal, 200k energy. Will provide you with 100k Energy per day. To maintain, you need 50k currency, 20k metal`, inline: true },
                     //{ name: `Star Generator`, value:`Costs 1 Billion currency, 2k metal. Will provide you with 100 Energy per day. To maintain, you need 100 currency, 100 energy`, inline:true },
                 )
                 .setColor("RED")
@@ -164,9 +164,17 @@ export const buy: Command = {
                 if (u.resources.money < (500000 * parseInt(args[1]))) {
                     return message.reply(`You need ${(500000 * parseInt(args[1]))} ${u.resources.currencyname}`)
                 }
+                if (u.resources.metal < (250000 * parseInt(args[1]))) {
+                    return message.reply(`You need ${(250000 * parseInt(args[1]))} metal`)
+                }
+                if (u.resources.metal < (200000 * parseInt(args[1]))) {
+                    return message.reply(`You need ${(200000 * parseInt(args[1]))} energy`)
+                }
                 if (!args[1]) return message.reply("Please state how many you wish to buy")
                 u.generators.energy.coldfusion += parseInt(args[1])
                 u.resources.money -= (500000 * parseInt(args[1]))
+                u.resources.metal -= (250000 * parseInt(args[1]))
+                u.resources.energy -= (200000 * parseInt(args[1]))
                 break;
 
             case "country":
