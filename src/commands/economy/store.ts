@@ -112,7 +112,7 @@ export const buy: Command = {
                 }
                 if (!args[1]) return message.reply("Please state how many you wish to buy")
                 u.resources.food += (500 * parseInt(args[1]))
-                u.resources.money += (500 * parseInt(args[1]))
+                u.resources.money -= (500 * parseInt(args[1]))
                 break;
 
             case "immigration":
@@ -121,7 +121,7 @@ export const buy: Command = {
                 }
                 if (!args[1]) return message.reply("Please state how many you wish to buy")
                 u.resources.people.human += parseInt(args[1])
-                u.resources.money += (500 * parseInt(args[1]))
+                u.resources.money -= (500 * parseInt(args[1]))
                 break;
 
             case "clone":
@@ -130,7 +130,7 @@ export const buy: Command = {
                 }
                 if (!args[1]) return message.reply("Please state how many you wish to buy")
                 u.resources.people.clone += (1000 * parseInt(args[1]))
-                u.resources.money += (5000 * parseInt(args[1]))
+                u.resources.money -= (5000 * parseInt(args[1]))
                 break;
             case "mines":
                 if (u.resources.money < (100 * parseInt(args[1]))) {
@@ -139,7 +139,7 @@ export const buy: Command = {
 
                 if (!args[1]) return message.reply("Please state how many you wish to buy")
                 u.generators.mines += parseInt(args[1])
-                u.resources.money += (100 * parseInt(args[1]))
+                u.resources.money -= (100 * parseInt(args[1]))
                 break;
 
             case "renewable":
@@ -148,7 +148,7 @@ export const buy: Command = {
                 }
                 if (!args[1]) return message.reply("Please state how many you wish to buy")
                 u.generators.energy.renewable += parseInt(args[1])
-                u.resources.money += (1000 * parseInt(args[1]))
+                u.resources.money -= (1000 * parseInt(args[1]))
                 break;
 
             case "hotfusion":
@@ -157,7 +157,7 @@ export const buy: Command = {
                 }
                 if (!args[1]) return message.reply("Please state how many you wish to buy")
                 u.generators.energy.hotfusion += parseInt(args[1])
-                u.resources.money += (10000 * parseInt(args[1]))
+                u.resources.money -= (10000 * parseInt(args[1]))
                 break;
 
             case "coldfusion":
@@ -166,7 +166,7 @@ export const buy: Command = {
                 }
                 if (!args[1]) return message.reply("Please state how many you wish to buy")
                 u.generators.energy.coldfusion += parseInt(args[1])
-                u.resources.money += (500000 * parseInt(args[1]))
+                u.resources.money -= (500000 * parseInt(args[1]))
                 break;
 
             case "country":
@@ -176,7 +176,7 @@ export const buy: Command = {
                     }
                     if (!args[2]) return message.reply("Please state how many you wish to buy")
                     u.navy.citizen += parseInt(args[2])
-                    u.resources.money += (10500 * parseInt(args[2]))
+                    u.resources.money -= (10500 * parseInt(args[2]))
                 }
 
                 else if (args[1] === "soldier") {
@@ -185,7 +185,7 @@ export const buy: Command = {
                     }
                     if (!args[2]) return message.reply("Please state how many you wish to buy")
                     u.army.citizen += parseInt(args[2])
-                    u.resources.money += (1500 * parseInt(args[2]))
+                    u.resources.money -= (1500 * parseInt(args[2]))
                 }
 
                 else if (args[1] === "farm") {
@@ -194,7 +194,7 @@ export const buy: Command = {
                     }
                     if (!args[2]) return message.reply("Please state how many you wish to buy")
                     u.generators.farms.citizen += parseInt(args[2])
-                    u.resources.money += (1000 * parseInt(args[2]))
+                    u.resources.money -= (1000 * parseInt(args[2]))
                 }
 
                 break;
@@ -206,7 +206,7 @@ export const buy: Command = {
                     }
                     if (!args[2]) return message.reply("Please state how many you wish to buy")
                     u.navy.corpo += parseInt(args[2])
-                    u.resources.money += (25500 * parseInt(args[2]))
+                    u.resources.money -= (25500 * parseInt(args[2]))
                 }
 
                 else if (args[1] === "soldier") {
@@ -215,7 +215,7 @@ export const buy: Command = {
                     }
                     if (!args[2]) return message.reply("Please state how many you wish to buy")
                     u.army.corpo += parseInt(args[2])
-                    u.resources.money += (12500 * parseInt(args[2]))
+                    u.resources.money -= (12500 * parseInt(args[2]))
                 }
 
                 else if (args[1] === "farm") {
@@ -224,9 +224,8 @@ export const buy: Command = {
                     }
                     if (!args[2]) return message.reply("Please state how many you wish to buy")
                     u.generators.farms.corpo += parseInt(args[2])
-                    u.resources.money += (100000 * parseInt(args[2]))
+                    u.resources.money -= (100000 * parseInt(args[2]))
                 }
-
                 break;
 
             default:

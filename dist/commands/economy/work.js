@@ -62,14 +62,14 @@ exports.beg = {
 exports.gamble = {
     name: "bet",
     group: "economy",
-    description: "You can bet your money for **higher** wins, or higher **losses**.\nUse the a or all flag to bet all your money!",
+    description: "You can bet your money for **higher** wins, or higher **losses**.\nUse the \`a\` or \`all\` flag to bet all your money!",
     owner: false,
     async execute(message, client, args) {
         let u = await db_1.getUser(message.author.id);
         if (!u) {
             return message.reply("Please make an account");
         }
-        let money = (args[0].toLowerCase() == "a" || "all") ? u.resources.money : parseInt(args[0]);
+        let money = (args[0].toLowerCase() === "a" || args[0].toLowerCase() === "all") ? u.resources.money : parseInt(args[0]);
         if (u.resources.money === 0)
             return message.reply("you don't have any money left!");
         else if ((isNaN(money) && args[0] != "a" && !args[0].toLowerCase().startsWith("h") &&
