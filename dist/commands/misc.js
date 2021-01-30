@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.rock8 = exports.botinvite = exports.helpserver = exports.ping = exports.nerdping = void 0;
 const discord_js_1 = require("discord.js");
+const util_1 = require("../util/util");
 exports.nerdping = {
     name: "nerdping",
     description: "More Ping!",
@@ -51,24 +52,36 @@ exports.rock8 = {
     description: "",
     owner: false,
     async execute(message, client, args) {
+        if (await util_1.getRndInteger(1, 5, true) !== 5) {
+            return;
+        }
+        ;
         if (args.includes("fucking")) {
             let index = args.findIndex(x => x === "fucking");
             args[index] = "fuck";
         }
+        if (args.includes("fucks")) {
+            let index = args.findIndex(x => x === "fucks");
+            args[index] = "fuck";
+        }
+        if (args.includes("fucked")) {
+            let index = args.findIndex(x => x === "fucked");
+            args[index] = "fuck";
+        }
         if (args.includes("fuck")) {
-            if (args.findIndex(x => x === "fuck") !== 0 && args[args.findIndex(x => x === "fuck") - 1] && args[args.findIndex(x => x === "fuck") + 1]) {
-                let string = `guy named "${args[args.findIndex(x => x === "fuck") - 1]}": 😏\n`;
-                string += `girl named "${args[args.findIndex(x => x === "fuck") + 1]}": 😳`;
-                return message.channel.send(string);
+            let one = args.join(" ").split("fuck")[0].split(" ");
+            let two = args.join(" ").split("fuck")[1].split(" ");
+            let string = "";
+            if (one.join(" ")) {
+                string += `guy named "${one.join(" ")}": 😏\n`;
             }
-            if (args[args.findIndex(x => x === "fuck") - 1] && !args[args.findIndex(x => x === "fuck") + 1]) {
-                let string = `guy named "${args[args.findIndex(x => x === "fuck") - 1]}": 😏\n`;
-                return message.channel.send(string);
+            if (two.join(" ")) {
+                string += `girl named "${two.join(" ")}": 😳`;
             }
-            if (!args[args.findIndex(x => x === "fuck") - 1] && args[args.findIndex(x => x === "fuck") + 1]) {
-                let string = `girl named "${args[args.findIndex(x => x === "fuck") + 1]}": 😳`;
+            if (string)
                 return message.channel.send(string);
-            }
+            else
+                return;
         }
     }
 };

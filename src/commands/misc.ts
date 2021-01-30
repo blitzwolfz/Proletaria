@@ -1,5 +1,6 @@
 import { Client, Message, MessageEmbed } from "discord.js"
 import { Command } from "../types"
+import { getRndInteger } from "../util/util";
 
 // This will complain if you don't provide the right types for each property
 export const nerdping: Command = {
@@ -53,40 +54,123 @@ export const botinvite: Command = {
     }
 }
 
+// export const rock8: Command = {
+//     name: "fuck",
+//     group:"misc",
+//     description: "",
+//     owner:false,
+//     async execute(message: Message, client:Client, args: string[]){
+//         if(await getRndInteger(1, 5, true) !== 5) return;
+        
+//         if(args.includes("fucking")){
+//             let index = args.findIndex(x => x === "fucking")
+
+//             args[index] = "fuck"
+//         }
+
+//         if(args.includes("fucks")){
+//             let index = args.findIndex(x => x === "fucks")
+
+//             args[index] = "fuck"
+//         }
+
+//         if(args.includes("fucked")){
+//             let index = args.findIndex(x => x === "fucks")
+
+//             args[index] = "fuck"
+//         }
+
+//         if(args.includes("fuck")){
+
+//             // {
+//             //     args.join(" ").split("fuck")[0].includes("your") ? "your" : ""
+//             // }
+
+//             if(args.findIndex(x => x === "fuck") !== 0 && args[args.findIndex(x => x === "fuck")-1] && args[args.findIndex(x => x === "fuck")+1]){
+//                 let string = `guy named "${args.join(" ").split("fuck")[0].includes("your") ? "your" : ""}${args[args.findIndex(x => x === "fuck")-1]}": 😏\n`
+
+//                 string += `girl named "${args.join(" ").split("fuck")[1].includes("your") ? "your" : ""}${args[args.findIndex(x => x === "fuck")+1]}": 😳`
+
+//                 return message.channel.send(string)
+//             }
+
+//             if(args[args.findIndex(x => x === "fuck")-1] && !args[args.findIndex(x => x === "fuck")+1]){
+//                 let string = `guy named "${args.join(" ").split("fuck")[0].includes("your") ? "your" : ""}${args[args.findIndex(x => x === "fuck")-1]}": 😏\n`
+
+//                 return message.channel.send(string)
+//             }
+
+//             if(!args[args.findIndex(x => x === "fuck")-1] && args[args.findIndex(x => x === "fuck")+1]){
+//                 let string = `girl named "${args.join(" ").split("fuck")[1].includes("your") ? "your" : ""}${args[args.findIndex(x => x === "fuck")+1]}": 😳`
+
+//                 return message.channel.send(string)
+//             }
+//         }
+//     }
+// }
+
 export const rock8: Command = {
     name: "fuck",
     group:"misc",
     description: "",
     owner:false,
     async execute(message: Message, client:Client, args: string[]){
-
+        if( await getRndInteger(1, 5, true) !== 5) {
+            return;
+        };
+        
         if(args.includes("fucking")){
             let index = args.findIndex(x => x === "fucking")
 
             args[index] = "fuck"
         }
 
-        if(args.includes("fuck")){
+        if(args.includes("fucks")){
+            let index = args.findIndex(x => x === "fucks")
 
-            if(args.findIndex(x => x === "fuck") !== 0 && args[args.findIndex(x => x === "fuck")-1] && args[args.findIndex(x => x === "fuck")+1]){
-                let string = `guy named "${args[args.findIndex(x => x === "fuck")-1]}": 😏\n`
-
-                string += `girl named "${args[args.findIndex(x => x === "fuck")+1]}": 😳`
-
-                return message.channel.send(string)
-            }
-
-            if(args[args.findIndex(x => x === "fuck")-1] && !args[args.findIndex(x => x === "fuck")+1]){
-                let string = `guy named "${args[args.findIndex(x => x === "fuck")-1]}": 😏\n`
-
-                return message.channel.send(string)
-            }
-
-            if(!args[args.findIndex(x => x === "fuck")-1] && args[args.findIndex(x => x === "fuck")+1]){
-                let string = `girl named "${args[args.findIndex(x => x === "fuck")+1]}": 😳`
-
-                return message.channel.send(string)
-            }
+            args[index] = "fuck"
         }
+
+        if(args.includes("fucked")){
+            let index = args.findIndex(x => x === "fucked")
+
+            args[index] = "fuck"
+        }
+
+        if(args.includes("fuck")){
+            let one = args.join(" ").split("fuck")[0].split(" ")
+            //message.channel.send(one.join(" "))
+            
+            let two = args.join(" ").split("fuck")[1].split(" ")
+            //message.channel.send(two.join(" "))
+
+            let string:string = "";
+
+            if(one.join(" ")){
+                // if(one.includes("your")){
+                //     string += `guy named "${one[one.length-2]} ${one[one.length-1]}": 😏\n`
+                // }
+
+                // else{
+                //     string += `guy named "${one[one.length-1]}": 😏\n`
+                // }
+
+                string += `guy named "${one.join(" ")}": 😏\n`
+            }
+
+            if(two.join(" ")){
+                // if(two.includes("your")){
+                //     string += `girl named "${two[two.length-2]} ${two[two.length-1]}": 😳`
+                // }
+
+                // else{
+                //     string += `girl named "${two[two.length-1]}": 😳`
+                // }
+                string += `girl named "${two.join(" ")}": 😳`
+            }
+
+            if(string) return message.channel.send(string);
+            else return;
+        } 
     }
 }
