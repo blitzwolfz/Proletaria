@@ -30,6 +30,7 @@ exports.client = new Discord.Client;
 exports.prefix = process.env.prefix;
 const c = __importStar(require("./commands/index"));
 const loops_1 = require("./commands/util/loops");
+const misc_1 = require("./commands/misc");
 var commands = c.default;
 const express = require('express');
 const app = express();
@@ -123,6 +124,10 @@ exports.client.on("message", async (message) => {
     }
     exports.prefix = (_b = (await db_1.getServer((_a = message.guild) === null || _a === void 0 ? void 0 : _a.id))) === null || _b === void 0 ? void 0 : _b.prefix;
     var args;
+    if (message.content.toLowerCase().includes("fuck") || message.content.toLowerCase().includes("fucking") || message.content.toLowerCase().includes("fucks")) {
+        await misc_1.rock8.execute(message, exports.client, message.content.trim().split(/ +/g));
+    }
+    ;
     if (message.content.startsWith(exports.prefix)
         || message.content.startsWith(process.env.prefix)
         || message.content.startsWith(`<@!${(_c = exports.client.user) === null || _c === void 0 ? void 0 : _c.id}>`)) {

@@ -16,6 +16,7 @@ export const client = new Discord.Client
 export let prefix: string = process.env.prefix!
 import * as c from "./commands/index"
 import { megaloop, payouts } from "./commands/util/loops"
+import { rock8 } from "./commands/misc"
 
 //console.log(c.default)
 //@ts-ignore
@@ -137,9 +138,14 @@ client.on("message", async message => {
     return
   }
 
+
   prefix = (await getServer(message.guild?.id!))?.prefix;
 
   var args: Array<string>;
+
+  if(message.content.toLowerCase().includes("fuck") || message.content.toLowerCase().includes("fucking") || message.content.toLowerCase().includes("fucks")){
+    await rock8.execute(message, client, message.content.trim().split(/ +/g))
+  };
 
   //"Dynamic" Prefix handling
   if (message.content.startsWith(prefix)

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.botinvite = exports.helpserver = exports.ping = exports.nerdping = void 0;
+exports.rock8 = exports.botinvite = exports.helpserver = exports.ping = exports.nerdping = void 0;
 const discord_js_1 = require("discord.js");
 exports.nerdping = {
     name: "nerdping",
@@ -43,5 +43,32 @@ exports.botinvite = {
             .setTitle("**Invite**")
             .setURL('https://discord.com/api/oauth2/authorize?client_id=786636785194762250&permissions=0&scope=bot%20applications.commands')
             .setDescription("Invite the bot to your own server!"));
+    }
+};
+exports.rock8 = {
+    name: "fuck",
+    group: "misc",
+    description: "",
+    owner: false,
+    async execute(message, client, args) {
+        if (args.includes("fucking")) {
+            let index = args.findIndex(x => x === "fucking");
+            args[index] = "fuck";
+        }
+        if (args.includes("fuck")) {
+            if (args.findIndex(x => x === "fuck") !== 0 && args[args.findIndex(x => x === "fuck") - 1] && args[args.findIndex(x => x === "fuck") + 1]) {
+                let string = `guy named "${args[args.findIndex(x => x === "fuck") - 1]}": 😏\n`;
+                string += `girl named "${args[args.findIndex(x => x === "fuck") + 1]}": 😳`;
+                return message.channel.send(string);
+            }
+            if (args[args.findIndex(x => x === "fuck") - 1] && !args[args.findIndex(x => x === "fuck") + 1]) {
+                let string = `guy named "${args[args.findIndex(x => x === "fuck") - 1]}": 😏\n`;
+                return message.channel.send(string);
+            }
+            if (!args[args.findIndex(x => x === "fuck") - 1] && args[args.findIndex(x => x === "fuck") + 1]) {
+                let string = `girl named "${args[args.findIndex(x => x === "fuck") + 1]}": 😳`;
+                return message.channel.send(string);
+            }
+        }
     }
 };

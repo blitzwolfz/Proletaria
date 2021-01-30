@@ -52,3 +52,41 @@ export const botinvite: Command = {
         )
     }
 }
+
+export const rock8: Command = {
+    name: "fuck",
+    group:"misc",
+    description: "",
+    owner:false,
+    async execute(message: Message, client:Client, args: string[]){
+
+        if(args.includes("fucking")){
+            let index = args.findIndex(x => x === "fucking")
+
+            args[index] = "fuck"
+        }
+
+        if(args.includes("fuck")){
+
+            if(args.findIndex(x => x === "fuck") !== 0 && args[args.findIndex(x => x === "fuck")-1] && args[args.findIndex(x => x === "fuck")+1]){
+                let string = `guy named "${args[args.findIndex(x => x === "fuck")-1]}": 😏\n`
+
+                string += `girl named "${args[args.findIndex(x => x === "fuck")+1]}": 😳`
+
+                return message.channel.send(string)
+            }
+
+            if(args[args.findIndex(x => x === "fuck")-1] && !args[args.findIndex(x => x === "fuck")+1]){
+                let string = `guy named "${args[args.findIndex(x => x === "fuck")-1]}": 😏\n`
+
+                return message.channel.send(string)
+            }
+
+            if(!args[args.findIndex(x => x === "fuck")-1] && args[args.findIndex(x => x === "fuck")+1]){
+                let string = `girl named "${args[args.findIndex(x => x === "fuck")+1]}": 😳`
+
+                return message.channel.send(string)
+            }
+        }
+    }
+}
